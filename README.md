@@ -6,4 +6,5 @@
 * 4、npm install multer --save
 * 5、npm install ejs --save
 
-node app.js
+* node app.js
+* http://localhost:8081/demo

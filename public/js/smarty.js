@@ -1677,8 +1677,12 @@
 			var div_id = params[ 'id' ];
 			//加载内容存放的ID
 			make_page_arg[ make_page_index ] = function( page ) {
-				var new_url = url + page_arg + '=' + page;
+				/*lzz modify*/
+				//var new_url = url + page_arg + '=' + page;
+				console.log(page);
+				var new_url = url;
 				var data = { };
+				data[ page_arg ] = page; //lzz add
 				data[ no_tpl_arg ] = 1;
 				smarty.post( new_url, data, tpl, div_id );
 			}

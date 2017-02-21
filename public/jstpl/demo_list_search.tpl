@@ -48,4 +48,4 @@ make_page 参数说明:<br/>
 {{make_page page=$page page_count=$page_count id="admin_list_div" right_fix=-1}}
 {{make_page page=$page page_count=$page_count id="admin_list_div" right_fix=-1 page_len=20}}
 {{make_page page=$page page_count=$page_count id="admin_list_div" right_fix=5 left_fix=5 page_len=25 disable_total=true}}
-{{make_page page=$page page_count=$page_count id="admin_list_div" right_fix=-1 left_fix=-1 page_len=30 disable_total=true disable_pre=true disable_next=true}}
+{{make_page page=$page page_count=$page_count id="admin_list_div" right_fix=-1 left_fix=-1 page_len=30 disable_total=true disable_pre=true disable_next=true url="ajax_demo"}}
