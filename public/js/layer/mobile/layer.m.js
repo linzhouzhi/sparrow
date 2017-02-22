@@ -1,4 +1,4 @@
-var path = window.STATIC_URL + 'sea-modules/layer/mobile/'
+var path = window.SCRIPT_FILE;
 var doc = document, query = 'querySelectorAll', claname = 'getElementsByClassName', S = function(s){
 	return doc[query](s);
 };

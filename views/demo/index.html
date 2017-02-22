@@ -37,15 +37,15 @@
                             </div>
                             <a class="filter_sure btn btn_1" data-form-item="id" data-value="input:res_id1-res_id2">确定</a>
                         </li>
-                        <li data-form-item="id" data-newe-tab-item="id" class="active">
+                        <li data-form-item="id" data-sparrow-tab-item="id" class="active">
                             <a>不限</a></li>
-                        <li data-form-item="id" data-newe-tab-item="id" data-value="0-100">
+                        <li data-form-item="id" data-sparrow-tab-item="id" data-value="0-100">
                             <a>0-100</a></li>
-                        <li data-form-item="id" data-newe-tab-item="id" data-value="100-200">
+                        <li data-form-item="id" data-sparrow-tab-item="id" data-value="100-200">
                             <a>100-200</a></li>
-                        <li data-form-item="id" data-newe-tab-item="id" data-value="200-300">
+                        <li data-form-item="id" data-sparrow-tab-item="id" data-value="200-300">
                             <a>200-300</a></li>
-                        <li data-form-item="id" data-newe-tab-item="id" data-value="300-">
+                        <li data-form-item="id" data-sparrow-tab-item="id" data-value="300-">
                             <a>300+</a></li>
                     </ul>
                 </div>
@@ -54,17 +54,17 @@
                 <div class="filter_title">type：</div>
                 <div class="filter_cont">
                     <ul data-form-name="type" data-form-title="发行量">
-                        <li data-form-item="type" data-newe-tab-item="type" class="active">
+                        <li data-form-item="type" data-sparrow-tab-item="type" class="active">
                             <a>不限</a></li>
-                        <li data-form-item="type" data-newe-tab-item="issue_size" data-value="0">
+                        <li data-form-item="type" data-sparrow-tab-item="issue_size" data-value="0">
                             <a>0</a></li>
-                        <li data-form-item="typee" data-newe-tab-item="issue_size" data-value="1">
+                        <li data-form-item="typee" data-sparrow-tab-item="issue_size" data-value="1">
                             <a>1</a></li>
-                        <li data-form-item="type" data-newe-tab-item="issue_size" data-value="2">
+                        <li data-form-item="type" data-sparrow-tab-item="issue_size" data-value="2">
                             <a>2</a></li>
-                        <li data-form-item="type" data-newe-tab-item="issue_size" data-value="3">
+                        <li data-form-item="type" data-sparrow-tab-item="issue_size" data-value="3">
                             <a>3</a></li>
-                        <li data-form-item="type" data-newe-tab-item="issue_size" data-value="4">
+                        <li data-form-item="type" data-sparrow-tab-item="issue_size" data-value="4">
                             <a>4</a></li>
                     </ul>
                 </div>
@@ -119,6 +119,7 @@
 <script src="js/pack.js"></script>
 <script src="js/smarty.js"></script>
 <script src="js/search_form.js"></script>
+<script src="js/validate.js"></script>
 <script src="js/static.js"></script>
 <script type="text/javascript">
     window.SCRIPT_FILE = "http://localhost:8081/"
@@ -136,7 +137,7 @@
     function display_data( data )
     {
         /*
-         smarty.html('newe/tool/demo_list_search', data, 'admin_list_div', function(){
+         smarty.html('sparrow/tool/demo_list_search', data, 'admin_list_div', function(){
          set_var( 'list', data.list );
          $( '#res_list_total_num' ).html( data.count );
          } );
@@ -167,9 +168,9 @@
      */
     window.demo_add_admin = function()
     {
-        smarty.open( 'newe/tool/demo_add', {}, { title: 'Demo add', width:600, id: 'demo_admin_add_win'},function(){
+        smarty.open( 'jstpl/demo_add', {}, { title: 'Demo add', width:600, id: 'demo_admin_add_win'},function(){
             //这里写回调啊
-            newe_form.init_radio( 'content_type', 1 );
+            sparrow_form.init_radio( 'content_type', 1 );
         } );
     };
 
@@ -179,7 +180,7 @@
      */
     function close_pop_win()
     {
-        win.close('demo_admin_add_win');
+        layer.close('demo_admin_add_win');
     }
 
     /**
@@ -188,12 +189,13 @@
     window.demo_post_add = function()
     {
 
-        var data_submit = newe_form.encode( 'admin_add_form' );
-        //console.log(data_submit);  可用的
-        if ( newe.empty( data_submit ) )
+        var data_submit = sparrow_form.encode( 'admin_add_form' );
+        /*
+        if ( sparrow.empty( data_submit ) )
         {
             return false;
         }
+        */
         var data = {};
         data.admin_name = $( '#admin_name_text' ).val().trim();
         data.pwd = $( '#admin_pwd_text' ).val().trim();
@@ -205,15 +207,22 @@
          } );
          */
         //快捷方式
-        smarty.post( '/tool/demo/post_add', data, 'newe/tool/demo_list', 'admin_list_div', close_pop_win );
+        smarty.post( '/ajax_demo', data, 'jstpl/demo_list_search', 'admin_list_div', close_pop_win );
     };
     window.demo_post_edit = function()
     {
+        var data_submit = sparrow_form.encode( 'admin_add_form' );
+
+         if ( sparrow.empty( data_submit ) )
+         {
+            return false;
+         }
+
         var data = {};
         data.id = $( '#admin_id_input' ).val();
         data.admin_name = $( '#admin_name_text' ).val();
         //快捷方式
-        smarty.post( '/tool/demo/post_edit', data, 'newe/tool/demo_list_row', 'admin_row_' + data.id, close_pop_win );
+        smarty.post( '/ajax_edit_demo', data, 'jstpl/demo_list_row', 'admin_row_' + data.id, close_pop_win );
     }
 </script>
 
