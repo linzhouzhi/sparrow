@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../../../sparrow/public/vender/bootstrap-3.3.7-dist/css/bootstrap.css" >
+    <script src="../../../sparrow/public/js/jquery.js"></script>
+    <style>
+        body{
+            background-color: #eee;
+            background-color: rgba(86,61,124,.15);
+        }
+
+        #head{
+            background: #000000;
+            color:#ffffff;
+        }
+
+        #center-left{
+
+        }
+        #center-right{
+            background-color: #ffffff;
+
+        }
+        #footer{
+            background: #000000;
+            color: #ffffff;
+            position: fixed;
+            bottom: 0px;
+        }
+        .hidden{
+            display: none;
+        }
+        .show-grid [class^=col-] {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        ul > li{
+            width: 100px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row show-grid">
+            <div id="head" class="col-sm-12">
+                this is head
+                <button id="menu-switch" type="button" class="btn btn-primary btn-sm">switch</button>
+            </div>
+            <div class="col-sm-2" id="center-left">
+                <div>
+                    <a data-url="http://www.baidu.com" class="tab-link" >baidu</a><br>
+                    <a data-url="http://www.bootcss.com" class="tab-link" >bootcss</a><br>
+                    <a data-url="http://v3.bootcss.com/css/#buttons" class="tab-link" >button</a><br>
+                    <a data-url="http://www.baidu.com" class="tab-link" >baidu</a><br>
+                </div><!-- #center-left -->
+            </div>
+            <div class="col-sm-10" id="center-right">
+                <div class="row"  style="border: 1px solid green">
+                    <ul id="tab-list">
+
+                    </ul>
+                </div>
+                <div id="content-body">
+
+                </div>
+            </div>
+            <div id="footer" class="col-sm-12">this is footer</div>
+        </div>
+    </div>
+</body>
+<script>
+    var $ = jQuery.noConflict();
+    /* init */
+    $("#content-body iframe").attr("height", $(window).height());
+    $(".tab-link").click(function () {
+        var url = $(this).data("url");
+        var link_name = $(this).text();
+        /* add iframe */
+        $("#content-body iframe").addClass("hidden");
+        var iframe_node = '<iframe src="'+ url +'" width="100%" style="border: none"></iframe>';
+        $("#content-body").append(iframe_node);
+        $("#content-body iframe").attr("height", $(window).height());
+
+
+        /* tag-list */
+        var tag_remove = '<span class="glyphicon glyphicon-remove" aria-hidden="true">' + link_name + '</span>';
+        $("#tab-list").append("<li>" + tag_remove + "</li>");
+        $('#tab-list li').on("click",function () {
+            var index = $(this).index();
+            $("#content-body > iframe").addClass("hidden");
+            $("#content-body > iframe").eq(index).removeClass("hidden");
+        });
+
+        // 移除操作
+        $('#tab-list > li > span').on("click",function () {
+            $(this).parent().remove();
+            var parent = $(this).parent();
+            var index = $(parent).index();
+            var last_index = $(parent).length - 1;
+            console.log(index + "----" + last_index + "--");
+            $("#content-body > iframe").eq(index).remove();
+
+            $("#content-body > iframe").eq(last_index).removeClass("hidden");
+        })
+    });
+
+
+
+    $("#menu-switch").click(function () {
+        $("#center-left").toggleClass("hidden");
+        if( $("#center-right").hasClass("col-sm-10") ){
+            $("#center-right").removeClass("col-sm-10");
+            $("#center-right").addClass("col-sm-12");
+        }else{
+            $("#center-right").removeClass("col-sm-12");
+            $("#center-right").addClass("col-sm-10");
+        }
+
+    });
+</script>
+</html>

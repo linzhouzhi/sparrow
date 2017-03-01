@@ -211,12 +211,6 @@
     };
     window.demo_post_edit = function()
     {
-        var data_submit = sparrow_form.encode( 'admin_add_form' );
-
-         if ( sparrow.empty( data_submit ) )
-         {
-            return false;
-         }
 
         var data = {};
         data.id = $( '#admin_id_input' ).val();
