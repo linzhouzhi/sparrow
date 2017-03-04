@@ -399,6 +399,8 @@ function _init() {
     var animationSpeed = $.AdminLTE.options.animationSpeed;
     $(document).off('click', menu + ' li a')
       .on('click', menu + ' li a', function (e) {
+        /*lzz 检查 tab-list 中包含的 data-url,如果存在就将相应的 li 加入active */
+        window.active_li_check();
         //Get the clicked link and the next element
         var $this = $(this);
         var checkElement = $this.next();
@@ -411,14 +413,19 @@ function _init() {
             //Fix the layout in case the sidebar stretches over the height of the window
             //_this.layout.fix();
           });
-          checkElement.parent("li").removeClass("active");
+          //checkElement.parent("li").removeClass("active"); /*lzz*/
+            checkElement.slideUp(animationSpeed,function () {
+                checkElement.parent("li").removeClass("active");
+            });
         }
         //If the menu is not visible
         else if ((checkElement.is('.treeview-menu')) && (!checkElement.is(':visible'))) {
           //Get the parent menu
-          var parent = $this.parents('ul').first();
+          var parent = $this.children('ul'); /*lzz add*/
+          //var parent = $this.parents('ul').first(); /*lzz*/
           //Close all open menus within the parent
-          var ul = parent.find('ul:visible').slideUp(animationSpeed);
+          var ul = parent.slideUp(animationSpeed);
+          //var ul = parent.find('ul:visible').slideUp(animationSpeed); /*lzz*/
           //Remove the menu-open class from the parent
           ul.removeClass('menu-open');
           //Get the parent li
