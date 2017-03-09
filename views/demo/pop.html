@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <meta charset="UTF-8">
+    <title>弹窗demo</title>
+</head>
+<body>
+<div class="container">
+    <div style="width:800px;margin:0 auto;">
+        <fieldset>
+            <legend>Alert弹出框</legend>
+            <input type="button" id="test_pop_alert_1" value="最简单">
+            <input type="button" id="test_pop_alert_2" value="带回调">
+            <input type="button" id="test_pop_alert_3" value="ICON_0">
+            <input type="button" id="test_pop_alert_4" value="ICON_1">
+            <input type="button" id="test_pop_alert_5" value="ICON_2">
+            <input type="button" id="test_pop_alert_6" value="ICON_3">
+            <input type="button" id="test_pop_alert_7" value="ICON_4">
+            <input type="button" id="test_pop_alert_8" value="ICON_5">
+            <input type="button" id="test_pop_alert_9" value="ICON_6">
+            <input type="button" id="test_pop_alert_10" value="ICON_7">
+            <input type="button" id="test_pop_alert_11" value="自定义宽度">
+            <input type="button" id="test_pop_alert_12" value="自定义标题">
+            <input type="button" id="test_pop_alert_13" value="自定义按钮">
+            <pre>
+ 请注意，该弹出框不具备像系统自带的alert框阻塞代码执行的功能。
+* 弹出框
+* @param {string} msg 弹出框显未内容
+* @param {mixed} callback 点击确认按钮后的回调函数，可以是函数， 也可以是可执行的js代码串
+* @param {int} width 宽度
+* @param {string} title 窗口的标志
+* @param {string} btn_text 按钮文字
+* @param {int} icon 图标( 0 -8 )
+		</pre>
+        </fieldset>
+        <fieldset>
+            <legend>Confirm弹出框</legend>
+            <input type="button" id="test_pop_confirm_1" value="最简单">
+            <input type="button" id="test_pop_confirm_2" value="取消按钮也带回调">
+            <input type="button" id="test_pop_confirm_3" value="自定义宽度">
+            <input type="button" id="test_pop_confirm_4" value="自定义标题">
+            <input type="button" id="test_pop_confirm_5" value="自定义按钮文字">
+            <pre>
+ 请注意，该弹出框不具备像系统自带的alert框阻塞代码执行的功能。
+* 弹出确认操作框
+* @param {string} msg 弹出框显未内容
+* @param {mixed} ok_callback 点击确认按钮后的回调函数
+* @param {mixed} cancel_callback_callback 点击确认按钮后的回调函数
+* @param {int} width 宽度
+* @param {string} title 窗口的标志
+* @param {string} ok_btn_text 确定按钮文字
+* @param {string} cancel_btn_text 取消按钮文字
+		</pre>
+        </fieldset>
+        <fieldset>
+            <legend>Error弹出框</legend>
+            <input type="button" id="test_pop_error_1" value="用法和Alert差不多">
+            <pre>
+ 该方法用法和Alert几乎一样，只是默认的标题是“出错啦”，icon默认是“错误”。
+* 错误弹出框
+* @param {string} msg 弹出框显未内容
+* @param {mixed} callback 点击确认按钮后的回调函数，可以是函数， 也可以是可执行的js代码串
+* @param {int} width 宽度
+* @param {string} title 窗口的标志
+* @param {string} btn_text 按钮文字
+		</pre>
+        </fieldset>
+        <fieldset>
+            <legend>Tiny_alert气泡框</legend>
+            <input type="button" id="test_tiny_alert_1" value="最简单">
+            <input type="button" id="test_tiny_alert_2" value="带回调">
+            <input type="button" id="test_tiny_alert_3" value="参数:颜色">
+            <input type="button" id="test_tiny_alert_4" value="参数:方向">
+            <div style="padding-top:10px"><input type="button" value="稻草人" id="demo_tip_btn"></div>
+            <pre>
+* 气泡alert框
+* @param {mixed} 依附对象，可以是 'id' 也可以是 $( '#id' ) 也可以是 $( '.class_name' )
+* @param {string} msg 消息内容
+* @param {mixed} ok_callback 点确定的回调，不点确定不会执行回调
+* @param {mixed} arg 方向 或者 各种参数 参数: {align:'left', color:'red'} 或者 'left', 'right', 'top', 'bottom'
+		</pre>
+        </fieldset>
+        <fieldset>
+            <legend>Tiny_box气泡框</legend>
+            <input type="button" id="test_tiny_box_1" value="最简单">
+            <input type="button" id="test_tiny_box_2" value="参数:颜色">
+            <input type="button" id="test_tiny_box_3" value="参数:方向">
+            <input type="button" id="test_tiny_box_4" value="参数:持续时间">
+            <div style="padding-top:10px"><input type="button" value="兵马佣" id="demo_box_btn"></div>
+            <pre>
+* 气泡box框
+* @param {mixed} 依附对象，可以是 'id' 也可以是 $( '#id' ) 也可以是 $( '.class_name' )
+* @param {string} msg 消息内容
+* @param {mixed} arg 方向 或者 各种参数 参数: {align:'left', color:'red', time: 5} 或者 'left', 'right', 'top', 'bottom'
+		</pre>
+        </fieldset>
+        <fieldset>
+            <legend>Tiny_error气泡框</legend>
+            <input type="button" id="test_tiny_error_1" value="最简单">
+            <input type="button" id="test_tiny_error_2" value="参数:方向">
+            <input type="button" id="test_tiny_error_3" value="参数:持续时间">
+            <div style="padding-top:10px"><input type="button" value="电杆" id="demo_error_btn"></div>
+            <pre>
+* 气泡error框
+* @param {mixed} 依附对象，可以是 'id' 也可以是 $( '#id' ) 也可以是 $( '.class_name' )
+* @param {string} msg 消息内容
+* @param {mixed} arg 方向 'left', 'right', 'top', 'bottom'
+		</pre>
+        </fieldset>
+
+        <fieldset>
+            <legend>Tiny_confirm气泡框</legend>
+            <input type="button" id="test_tiny_confirm_1" value="最简单">
+            <input type="button" id="test_tiny_confirm_2" value="取消回调">
+            <input type="button" id="test_tiny_confirm_3" value="参数:颜色">
+            <input type="button" id="test_tiny_confirm_4" value="参数:方向">
+            <div style="padding-top:10px"><input type="button" value="定海神针" id="demo_confirm_btn"></div>
+            <pre>
+* 气泡confirm框
+* @param {mixed} 依附对象，可以是 'id' 也可以是 $( '#id' ) 也可以是 $( '.class_name' )
+* @param {string} msg 消息内容
+* @param {mixed} ok_callback 点确定的回调
+* @param {mixed} arg 方向 'left', 'right', 'top', 'bottom'
+* @param {mixed} calcel_callback 点取消的回调
+		</pre>
+        </fieldset>
+
+        <fieldset>
+            <legend>Msg小弹框</legend>
+            <input type="button" id="test_msg_1" value="最简单">
+            <input type="button" id="test_msg_2" value="带Icon">
+            <input type="button" id="test_msg_3" value="动画_1">
+            <input type="button" id="test_msg_4" value="动画_2">
+            <input type="button" id="test_msg_5" value="动画_3">
+            <input type="button" id="test_msg_6" value="动画_4">
+            <input type="button" id="test_msg_7" value="动画_5">
+            <input type="button" id="test_msg_8" value="动画_6">
+            <input type="button" id="test_msg_9" value="带阴影">
+            <input type="button" id="test_msg_10" value="有回调">
+            <pre>
+* 简单的消息提示框
+* @param {string} msg 提示内容
+* @param {mixed} 参数 数字: 图标编号 对象：参数
+* @param {mixed} callback 回调函数
+		</pre>
+        </fieldset>
+
+        <fieldset>
+            <legend>Open小弹框</legend>
+            <input type="button" id="test_open_1" value="最简单">
+            <input type="button" id="test_open_2" value="参数:标题(title)">
+            <input type="button" id="test_open_3" value="参数:遮罩(modal)">
+            <input type="button" id="test_open_4" value="参数:ID(id)">
+            <input type="button" id="test_open_5" value="参数:关闭回调(onclose)">
+            <input type="button" id="test_open_6" value="参数:宽度(width)">
+            <input type="button" id="test_open_7" value="参数:高宽(width:height)">
+            <pre>
+* 简单的消息提示框
+* @param {string} msg 提示内容
+* @param {mixed} 参数 数字: 图标编号 对象：参数
+* @param {mixed} callback 回调函数
+		</pre>
+        </fieldset>
+
+    </div>
+</div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/layer/layer.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/tool.js"></script>
+<script src="js/util.js"></script>
+<script src="js/json.js"></script>
+<script src="js/window.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/pack.js"></script>
+<script src="js/smarty.js"></script>
+<script src="js/search_form.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/static.js"></script>
+<script>
+    var $ = jQuery.noConflict();
+    $( '#test_pop_alert_1' ).click( function(){
+        sparrow_win.alert( '再不努力我们就老了！' );
+    } );
+    $( '#test_pop_alert_2' ).click( function(){
+        sparrow_win.alert( '你的人品真的太好了！', function(){
+            sparrow_win.msg( '逗你玩~~~', {shift: 6, icon:6} );
+        } );
+    } );
+    $( '#test_pop_alert_3' ).click( function(){
+        sparrow_win.alert( '这是ICON 0' );
+    } );
+    $( '#test_pop_alert_4' ).click( function(){
+        sparrow_win.alert( '这是ICON 1', null, null, null, null, 1 );
+    } );
+    $( '#test_pop_alert_5' ).click( function(){
+        sparrow_win.alert( '这是ICON 2', null, null, null, null, 2 );
+    } );
+    $( '#test_pop_alert_6' ).click( function(){
+        sparrow_win.alert( '这是ICON 3', null, null, null, null, 3 );
+    } );
+    $( '#test_pop_alert_7' ).click( function(){
+        sparrow_win.alert( '这是ICON 4', null, null, null, null, 4 );
+    } );
+    $( '#test_pop_alert_8' ).click( function(){
+        sparrow_win.alert( '这是ICON 5', null, null, null, null, 5 );
+    } );
+    $( '#test_pop_alert_9' ).click( function(){
+        sparrow_win.alert( '这是ICON 6', null, null, null, null, 6 );
+    } );
+    $( '#test_pop_alert_10' ).click( function(){
+        sparrow_win.alert( '这是ICON 7', null, null, null, null, 7 );
+    } );
+    $( '#test_pop_alert_11' ).click( function(){
+        sparrow_win.alert( '我很胖', null, 770 );
+    } );
+    $( '#test_pop_alert_12' ).click( function(){
+        sparrow_win.alert( '100块都不给我！（请注意标题内容）', null, null, '你把我当什么人' );
+    } );
+    $( '#test_pop_alert_13' ).click( function(){
+        sparrow_win.alert( '太无聊了', null, null, null, '那就来一发吧' );
+    } );
+
+    $( '#test_pop_confirm_1' ).click( function(){
+        sparrow_win.confirm( '你确定要练此神功吗？', function(){
+            sparrow_win.msg( "请自宫", {shift:3, icon:6} );
+        } );
+    } );
+
+    $( '#test_pop_confirm_2' ).click( function(){
+        sparrow_win.confirm( '你确定要抛弃本喵吗？', function(){
+            sparrow_win.msg( "铲屎君得罪了本喵是没有好下场的！", {shift:6, icon:5} );
+        }, function(){
+            sparrow_win.msg( "铲屎君么么哒~~~", {shift:1, icon:6} );
+        } );
+    } );
+
+    $( '#test_pop_confirm_3' ).click( function(){
+        sparrow_win.confirm( '你这么胖，是否要减肥？', function(){
+            sparrow_win.msg( "省省吧！", {icon:6} );
+        }, null, 800 );
+    } );
+
+    $( '#test_pop_confirm_4' ).click( function(){
+        sparrow_win.confirm( '你确定要练此神功吗？', function(){
+            sparrow_win.msg( "请自宫", {icon:6} );
+        }, 'console.debug("东方失败")', null, '葵花宝典友情提醒' );
+    } );
+
+    $( '#test_pop_confirm_5' ).click( function(){
+        sparrow_win.confirm( '你是猴子请来的救兵吗？', function(){
+            sparrow_win.msg( "你好，小毛猴！", {icon:6} );
+        }, function(){
+            sparrow_win.msg( "做人要勇敢！", {icon:6} );
+        }, null, null, '大胆承认', '悄悄拒绝' );
+    } );
+
+    $( '#test_pop_error_1' ).click( function(){
+        sparrow_win.error( '你还没有达成练神功的条件！' );
+    } );
+
+    //================================tiny_alert========================================
+
+    $( '#test_tiny_alert_1' ).click( function(){
+        sparrow_win.tiny_alert( 'demo_tip_btn', '对象的女孩看过来。' );
+    } );
+
+    $( '#test_tiny_alert_2' ).click( function(){
+        sparrow_win.tiny_alert( 'demo_tip_btn', 'A：“你下面太湿！”<br/>“你下面太硬！”：B', function(){
+            sparrow_win.msg( "要煮好一碗面真不容易啊！", {shift:6, icon:6} );
+        } );
+    } );
+
+    $( '#test_tiny_alert_3' ).click( function(){
+        sparrow_win.tiny_alert( 'demo_tip_btn', '我是红色', null, {color:'red'} );
+    } );
+
+    $( '#test_tiny_alert_4' ).click( function(){
+        sparrow_win.tiny_alert( 'demo_tip_btn', '我在上面', null, 'top' );
+    } );
+    $( '#demo_tip_btn' ).click( function(){
+        sparrow_win.tiny_alert( 'demo_tip_btn', '我只是一个安静的稻草人', null, {color:'green', align:'left'} );
+    } );
+
+    //================================tiny_box========================================
+
+    $( '#test_tiny_box_1' ).click( function(){
+        sparrow_win.tiny_box( 'demo_box_btn', '和tiny_alert比，我只是少了“确定”按钮。' );
+    } );
+
+    $( '#test_tiny_box_2' ).click( function(){
+        sparrow_win.tiny_box( 'demo_box_btn', '我是黑色', {color:'black'} );
+    } );
+
+    $( '#test_tiny_box_3' ).click( function(){
+        sparrow_win.tiny_box( 'demo_box_btn', '我在上面', 'top' );
+    } );
+    $( '#test_tiny_box_4' ).click( function(){
+        sparrow_win.tiny_box( 'demo_box_btn', '我5秒后消失', {time:5} );
+    } );
+    $( '#demo_box_btn' ).click( function(){
+        sparrow_win.tiny_box( 'demo_box_btn', '誓死效忠大秦帝国！', {color:'green', align:'left'} );
+    } );
+
+    //================================tiny_error========================================
+    $( '#test_tiny_error_1' ).click( function(){
+        sparrow_win.tiny_error( 'demo_error_btn', 'tiny_error的底色固定是红色' );
+    } );
+
+    $( '#test_tiny_error_2' ).click( function(){
+        sparrow_win.tiny_error( 'demo_error_btn', '我在上面', 'top' );
+    } );
+    $( '#test_tiny_error_3' ).click( function(){
+        sparrow_win.tiny_error( 'demo_error_btn', '我5秒后消失', {time:5} );
+    } );
+    $( '#demo_error_btn' ).click( function(){
+        sparrow_win.tiny_error( 'demo_error_btn', '我真的没有病，不要贴小广告！' );
+    } );
+
+    //================================tiny_confirm========================================
+    $( '#test_tiny_confirm_1' ).click( function(){
+        sparrow_win.tiny_confirm( 'demo_confirm_btn', '你确定要变成齐天大圣吗？', function(){
+            sparrow_win.msg( "然并卵！", {shift:6, icon:6} );
+        } );
+    } );
+    $( '#test_tiny_confirm_2' ).click( function(){
+        sparrow_win.tiny_confirm( 'demo_confirm_btn', '你确定要穿越回星吗？', function(){
+            sparrow_win.msg( "火星不欢迎你", {shift:6, icon:6} );
+        }, null, function(){
+            sparrow_win.msg( "地球不适合你", {shift:6, icon:6} )
+        } );
+    } );
+    $( '#test_tiny_confirm_3' ).click( function(){
+        sparrow_win.tiny_confirm( 'demo_confirm_btn', '我是粉红色', null, {color:'pink'} );
+    } );
+    $( '#test_tiny_confirm_4' ).click( function(){
+        sparrow_win.tiny_confirm( 'demo_confirm_btn', '我在上面', null, 'top' );
+    } );
+    $( '#demo_confirm_btn' ).click( function(){
+        sparrow_win.tiny_confirm( 'demo_confirm_btn', '大圣，你在哪里！' );
+    } );
+    //================================msg========================================
+    $( '#test_msg_1' ).click( function(){
+        sparrow_win.msg( '简单吧' );
+    } );
+    $( '#test_msg_2' ).click( function(){
+        sparrow_win.msg( '图标_1', 1 ); //如果第二个参数是数字, 表示 图标编号，参考 alert方法的图标
+    } );
+    $( '#test_msg_3' ).click( function(){
+        sparrow_win.msg( '动画_1', {shift:1} );
+    } );
+    $( '#test_msg_4' ).click( function(){
+        sparrow_win.msg( '动画_2', {shift:2}  );
+    } );
+    $( '#test_msg_5' ).click( function(){
+        sparrow_win.msg( '动画_3', {shift:3}  );
+    } );
+    $( '#test_msg_6' ).click( function(){
+        sparrow_win.msg( '动画_4', {shift:4}  );
+    } );
+    $( '#test_msg_7' ).click( function(){
+        sparrow_win.msg( '动画_5', {shift:5}  );
+    } );
+    $( '#test_msg_8' ).click( function(){
+        sparrow_win.msg( '动画_6', {shift:6}  );
+    } );
+    $( '#test_msg_9' ).click( function(){
+        sparrow_win.msg( '有阴影了，并且点击阴影可以关闭', {modal: true, icon:1} );
+    } );
+    $( '#test_msg_10' ).click( function(){
+        sparrow_win.msg( '打雷了，下雨了，快点回家收衣服吧', 5, function(){
+            sparrow_win.msg( '你妈贵姓' );
+        } );
+    } );
+    //================================Open========================================
+    $( '#test_open_1' ).click( function(){
+        sparrow_win.open( '【富贵人家的小姐！】<br>新交了个女朋友，听别人说她是富贵人家的小姐，<br>我是个老实人，富不富贵无所谓，只要对我好就行，后来我才知道富贵人家是个洗浴中心！', {width:360} );
+    } );
+    $( '#test_open_2' ).click( function(){
+        sparrow_win.open( '第一次约一妹纸出去玩，从商场出来之后做出租车，没想到开车的大哥见到我俩笑着说道：“呦呵，又换了一个？”我听后就要发火，我认识你吗？这样污蔑我？就当我转过头想和妹纸解释这家伙是个神经病时，只见妹纸羞涩的向那大哥点了点头。。。', {title: '尼玛', width:360} );
+    } );
+    $( '#test_open_3' ).click( function(){
+        sparrow_win.open( '古时候打劫是这样的：“此山是我开，此树是我栽。要想从此过，留下买路财！”这语言多么粗鲁野蛮！经过上千年的文明洗礼，到了现代社会，语言变得文明贴心：“前方500米收费站，请减速慢行，停车请领卡，请缴费，谢谢合作！祝您出行平安……”多么的文明有礼貌啊！事实告诉我们：流氓不可怕，就怕流氓有文化！', {title: '不能同意更多', modal:true, width:360} );
+    } );
+    $( '#test_open_4' ).click( function(){
+        sparrow_win.open( '有ID的好处是<ul><li>可以使用close(ID)的方法外部关闭窗口</li><li>如果相同ID的窗口已经存在，不会再次打开相同的窗口，而是替换里边的内容</li><li><input type="button" value="换内容" onclick="test_open_win_id()"></li></ul>', {title: '不能同意更多', id: 'test_pop_win', width:360} );
+    } );
+    window.test_open_win_id = function(){
+        sparrow_win.open( '内容已经换了', {title: '不能同意更多', id: 'test_pop_win'} );
+    }
+    $( '#test_open_5' ).click( function(){
+        sparrow_win.open( '狼来了！', {title:'注意', onclose: function(){sparrow_win.msg( '骗纸！' )} } );
+    } );
+    $( '#test_open_6' ).click( function(){
+        sparrow_win.open( '女孩上初三，肚子疼去医院检查，医生检查一番问：有过性生活吗？ 妈妈抢答：没有，孩子还小。 但女孩弱弱的说：有。 妈妈目光变色了，女孩：医生这和病情有关吗？ 医生：没有，随便问问……', {width:'800px', title:'指定宽'} );
+    } );
+    $( '#test_open_7' ).click( function(){
+        sparrow_win.open( '俺家开花店的，昨天七夕刚过正打扫卫生，一哥们进来买花，我问需要什么?<br>哥们答：玫瑰一支，焉点的!<br>我：不解? <br>哥们答：昨天忘了今天回家好告诉媳妇，玫瑰是七夕买的，忙忘了放焉了!<br/>尼玛人才啊!', {width:'800px', height:'600px',title:'指定高和宽'} );
+    } );
+</script>
+</html>

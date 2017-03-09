@@ -37,6 +37,16 @@ app.get('/demo', function (req, res) {
     res.render('demo/index', {title:'paint title'});
 })
 
+app.get('/pop', function (req, res) {
+    console.log( req.query.page );
+    res.render('demo/pop', {title:'paint title'});
+})
+
+app.get('/admin', function (req, res) {
+    console.log( req.query.page );
+    res.render('demo/admin2', {title:'paint title'});
+})
+
 app.post('/ajax_demo', urlencodedParser, function (req, res) {
     // 输出 JSON 格式
     var rand = Math.random();
