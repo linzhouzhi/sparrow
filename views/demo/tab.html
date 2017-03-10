@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <link href="vender/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet" charset="utf-8">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .active{display: inline-block !important }
+        p {
+            border: 1px solid #e6e6e6;
+            margin-bottom: 15px;
+            margin-top: 30px;
+            padding-left: 20px;
+            background: #f7f7f7;
+            color: #088fc8;
+            line-height: 36px;
+        }
+        .pt20 {
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <p>标准用法： 有标签 有内容 每标签的 data-sparrow-tab-item 不相同，每个标签对应一个 data-sparrow-tab-body</p>
+    <ul class="nav nav-tabs">
+        <li class="active" data-sparrow-tab-item="home"><a href="javascript:;">Home</a></li>
+        <li data-sparrow-tab-item="profile"><a href="javascript:;">Profile</a></li>
+        <li data-sparrow-tab-item="message"><a href="javascript:;">Messages</a></li>
+    </ul>
+    <div class="pt20">
+        <div class="alert alert-success hide active" data-sparrow-tab-body="home">内容home</div>
+        <div class="alert alert-success hide" data-sparrow-tab-body="profile">内容 profile</div>
+        <div class="alert alert-success hide" data-sparrow-tab-body="message">内容 message</div>
+    </div>
+
+    <p>只有标签 所有标签的 data-sparrow-tab-item 属性相同</p>
+    <ul class="nav nav-pills">
+        <li class="active" data-sparrow-tab-item="demo"><a href="javascript:;">选项一</a></li>
+        <li data-sparrow-tab-item="demo"><a href="javascript:;">选项二</a></li>
+        <li data-sparrow-tab-item="demo"><a href="javascript:;">选项三</a></li>
+        <li data-sparrow-tab-item="demo"><a href="javascript:;">选项四</a></li>
+    </ul>
+
+    <p>作为 radio 的示例 <input type="text" readonly="readonly" id="sparrow_radio_demo_input"></p>
+    <ul class="nav nav-pills">
+        <li data-sparrow-radio="demo" data-value="1"><a href="javascript:;">选项一</a></li>
+        <li data-sparrow-radio="demo" data-value="2"><a href="javascript:;">选项二</a></li>
+        <li data-sparrow-radio="demo" data-value="3"><a href="javascript:;">选项三</a></li>
+        <li data-sparrow-radio="demo"data-value="4"><a href="javascript:;">选项四</a></li>
+    </ul>
+
+    <p>作为 checkbox 的示例 <input type="text" readonly="readonly" id="sparrow_radio_box_input" data-max-check="4" data-require="2" data-checkbox="box" data-max-check-msg="你最多可以选择4个" data-require-msg="至少要选择两项"></p>
+    <ul class="nav nav-pills">
+        <li data-sparrow-checkbox="box" data-value="1"><a href="javascript:;">选项一</a></li>
+        <li data-sparrow-checkbox="box" data-value="2"><a href="javascript:;">选项二</a></li>
+        <li data-sparrow-checkbox="box" data-value="3"><a href="javascript:;">选项三</a></li>
+        <li data-sparrow-checkbox="box"data-value="4"><a href="javascript:;">选项四</a></li>
+        <li data-sparrow-checkbox="box"data-value="5"><a href="javascript:;">选项五</a></li>
+        <li data-sparrow-checkbox="box"data-value="6"><a href="javascript:;">选项六</a></li>
+    </ul>
+    <div id="sparrow_radio_box_input_tip" class="hide"></div>
+
+    <p>每次点击切换css</p>
+    <ul class="nav nav-pills">
+        <li data-toggle-css="active" data-toggle-text="已选中"><a>点击我</a></li>
+    </ul>
+    <p>点击显示隐藏内容</p>
+    <ul class="nav nav-pills">
+        <li data-toggle-css="active" data-toggle-text="隐藏内容" data-toggle-link="demo_hide_div" data-toggle-link-css="hide">
+            <a id="demo_eve_btn">显示内容</a>
+        </li>
+    </ul>
+    <div class="pt20 hide" id="demo_hide_div">
+        <div class="alert alert-success hide active" data-sparrow-tab-body="home">哈哈, 我是隐藏内容</div>
+    </div>
+    <p>点击事件传递</p>
+    <ul class="nav nav-pills">
+        <li class="role_att" data-toggle-css="active" data-toggle-text="女"><a>男</a></li>
+        <li class="role_att" data-toggle-css="active" data-toggle-text="神"><a>渣</a></li>
+        <li class="role_att" data-toggle-css="active" data-toggle-text="白"><a>矮</a></li>
+        <li class="role_att" data-toggle-css="active" data-toggle-text="富"><a>穷</a></li>
+        <li class="role_att" data-toggle-css="active" data-toggle-text="美"><a>丑</a></li>
+    </ul>
+    <button type="button" class="btn btn-primary m20" aria-label="Left Align" data-event-route="demo_eve_btn">
+        <span>指定ID传递</span>
+    </button>
+    <button type="button" class="btn btn-primary m20" aria-label="Left Align" data-event-route=".role_att">
+        <span>批量传递</span>
+    </button>
+    <p>高度变化</p>
+    <ul class="nav nav-pills">
+        <li data-toggle-css="active" data-toggle-text="收起" data-toggle-link="demo_animate_height"
+            data-toggle-link-animate="height" data-toggle-animate-value="80"><a>展开</a></li>
+    </ul>
+    <div class="mt20" style="height:60px; overflow: hidden" id="demo_animate_height">
+        <div class="alert alert-success">哈哈, 我是内容</div>
+        <div class="alert alert-success">哈哈, 我是未显示的内容</div>
+    </div>
+
+
+    <p>宽度变化</p>
+    <ul class="nav nav-pills">
+        <li data-toggle-css="active" data-toggle-text="收起" data-toggle-link="demo_animate_width"
+            data-toggle-link-animate="width" data-toggle-animate-value="200"><a>展开</a></li>
+    </ul>
+    <div class="mt20" style="width:600px; overflow: hidden" id="demo_animate_width">
+        <div class="alert alert-success">哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,哈哈, 我是内容,</div>
+    </div>
+
+    <div class="mb10">
+        <span class="re_left"><span class="icon_index icon_index_24"></span>稿件内容:</span>
+        <span class="lh30" id="content_change_box">
+            <label data-sparrow-tab-item="out"><input type="radio" name="content_type"  data-require="1" value="1">外部链接</label>
+            <label data-sparrow-tab-item="up" ><input type="radio" name="content_type"  data-require="1" value="2">上传文档</label>
+        </span>
+        <span class="sparrow_input_tip_2 hide" id="content_tip"></span>
+    </div>
+
+    <div class="mb10 hide active" data-sparrow-tab-body="out">
+        <div class="mb10">
+            <span class="re_left"><span class="icon_index icon_index_24"></span>外部链接out:</span>
+            <span>
+                <input type="text" name="out_link"  value="http://www.baidu.com" data-require-if="content_type:1" data-type="url" data-format-msg="链接请以http://开头"  placeholder="http://">
+            </span>
+            <div class="sparrow_input_tip_info warning" id="out_link_tip" style="margin-left:410px">请确认您的稿件链接无误。</div>
+        </div>
+    </div>
+
+    <div class="mb10 hide active" data-sparrow-tab-body="up">
+        <div class="mb10">
+            <span class="re_left"><span class="icon_index icon_index_24"></span>外部链接up:</span>
+            <span>
+                <input type="text" name="up_link"  value="http://www.baidu.com" data-require-if="content_type:2" data-type="url" data-format-msg="链接请以http://开头"  placeholder="http://">
+            </span>
+            <div class="sparrow_input_tip_info warning" id="up_link_tip" style="margin-left:410px">请确认您的稿件链接无误。</div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/layer/layer.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/tool.js"></script>
+<script src="js/util.js"></script>
+<script src="js/json.js"></script>
+<script src="js/window.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/pack.js"></script>
+<script src="js/smarty.js"></script>ß
+<script src="js/search_form.js"></script>
+<script src="js/tab.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/static.js"></script>
+<script>
+
+    sparrow_form.init_radio( 'content_type', 2 );
+
+</script>
+</html>

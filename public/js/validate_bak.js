@@ -1,7 +1,6 @@
 var $ = jQuery.noConflict();
 var sparrow_form = {}
 
-	
 	var error_css = 'error', ok_css = 'ok', info_css = 'info';
 	$( document ).on( 'focus', 'input,textarea,select', input_box_focus );
 	$( document ).on( 'blur', 'input,textarea,select', input_box_blur );
@@ -124,10 +123,6 @@ var sparrow_form = {}
 	 */
 	function input_first_forcus( input )
 	{
-		if ( input.data( 'first-focus' ) )
-		{
-			return;
-		}
 		var tmp = input_get_tip_box( input[ 0 ] );
 		var tip_box = tmp.box;
 		if ( null === tip_box )
@@ -148,7 +143,7 @@ var sparrow_form = {}
 				{
 					dev_tip_msg( input, '主页面的js没有引用 colorpicker' );
 				}
-				break;
+			break;
 		}
 		input.data( 'first-focus', 1 );
 		input.data( 'default-css', input[ 0 ].className );
@@ -234,10 +229,6 @@ var sparrow_form = {}
 				}
 			}
 		}
-		var result = {
-			must: value_require,
-			is_ok: false
-		};
 		//必须填写
 		if ( value_require )
 		{
@@ -246,7 +237,7 @@ var sparrow_form = {}
 				var def_value = input.data( 'select-default' );
 				if ( def_value == input_value )
 				{
-					return result;
+					return false;
 				}
 			}
 			if ( 'checkbox' === input.attr( 'type' ) )
@@ -260,18 +251,16 @@ var sparrow_form = {}
 					}
 				} );
 				input.data( 'check-count', check_num );
-				result.is_ok = ( check_num > 0 );
-				return result;
+				return check_num > 0;
 			}
 			var is_empty = ( input_value.length < 1 );
 			//如果值为空, 检查是否是和其它input关联检查
 			if ( is_empty && !input_require_check( input, value_require ) )
 			{
-				return result;
+				return false;
 			}
 		}
-		result.is_ok = true;
-		return result;
+		return true;
 	}
 
 	/**
@@ -375,10 +364,9 @@ var sparrow_form = {}
 			reset_tip_box( tip_box, tip_box_type );
 		}
 		var tip_box_type = tmp.type;
-		var require_re = data_require_check( input, input_value );
-		var require_check = require_re.is_ok;
+		var require_check = data_require_check( input, input_value );
 		var type_check = true, len_check = true, url_check = true, check_max_re = true;
-		if ( input_value.length > 0 && require_re.must )
+		if ( input_value.length > 0 )
 		{
 			type_check = data_type_check( input, input_value );
 			len_check = data_len_check( input );
@@ -417,7 +405,7 @@ var sparrow_form = {}
 		//服务端检测
 		var url = input.data( 'server-check' ), url_check_msg = '';
 		//如果是调用 sparrow_form.encode方法, 不会执行这里
-		if ( url && !is_encode_eve && require_check && type_check && len_check && require_re.must )
+		if ( url && !is_encode_eve && require_check && type_check && len_check )
 		{
 			var checking = input.data( 'checking' );
 			if ( checking )
@@ -430,7 +418,7 @@ var sparrow_form = {}
 				return;
 			}
 			input.data( 'checking', 1 );
-			//var ajax = require( 'ajax' ); lzz delte
+			//var ajax = require( 'ajax' );
 			var data = {};
 			data[ name ] = input.val().trim();
 			if ( 3 !== tip_box_type )
@@ -440,7 +428,7 @@ var sparrow_form = {}
 			ajax.post( url, data, function( re, arg ){
 				arg.data( 'checking', 0 );
 				reset_tip_box( tip_box, tip_box_type );
-				if ( re.sparrowphp_error_code > 0 )
+				if ( re.sparrow_error_code > 0 )
 				{
 					url_check = false;
 					url_check_msg = re.error_msg;
@@ -757,7 +745,7 @@ var sparrow_form = {}
 		{
 			return false;
 		}
-		if ( !/^[\w\-.]+$/.test( tmp[ 0 ] ) )
+		if ( !/^[\w.]+$/.test( tmp[ 0 ] ) )
 		{
 			return false;
 		}
@@ -765,7 +753,7 @@ var sparrow_form = {}
 		{
 			return false;
 		}
-		if ( !/^[a-z\-A-Z\d]+\.[a-zA-Z]{2,4}(\.[a-zA-Z]{2,4})?$/.test( tmp[ 1 ] ) )
+		if ( !/^[a-zA-Z\d]+\.[a-zA-Z]{2,4}(\.[a-zA-Z]{2,4})?$/.test( tmp[ 1 ] ) )
 		{
 			return false;
 		}
@@ -896,7 +884,7 @@ var sparrow_form = {}
 	/**
 	 * 检查字符串
 	 */
-	check_type.password = check_type.text = check_type.hidden = check_type.textarea = function( input, value )
+	check_type.password = check_type.text = check_type.hidden = function( input, value )
 	{
 		var format = input.data( 'format' );
 		//有一些特殊情况
@@ -913,7 +901,7 @@ var sparrow_form = {}
 						dev_tip_msg( input, '自定义检查函数:' + func + '不存在' );
 						return false;
 					}
-					return window[ func ]( input, value );
+					return window[ func ]( value );
 				}
 				//必须和另外一个表单相同
 				if ( 0 === format.indexOf( 'same::' ) )
@@ -1070,7 +1058,7 @@ var sparrow_form = {}
 					}
 				} );
 				return tmp_val.join( ',' );
-				break;
+			break;
 			case 'radio':
 				var tmp_val;
 				inp.each( function(i, item){
@@ -1079,10 +1067,10 @@ var sparrow_form = {}
 					}
 				} );
 				return tmp_val;
-				break;
+			break;
 			default:
 				return inp.val().trim();
-				break;
+			break;
 		}
 	}
 
@@ -1103,8 +1091,7 @@ var sparrow_form = {}
 		{
 			return;
 		}
-		input_first_forcus( inp );
-		inp.trigger( 'blur' );
+		inp.trigger( 'focus' ).trigger( 'blur' );
 	}
 
 	/**
@@ -1280,19 +1267,19 @@ var sparrow_form = {}
 			}
 			if ( 0 === mod )
 			{
-				result[ name ] = value.trim();
+				result[ name ] = value;
 			}
 			else
 			{
 				//值发生改变的
 				if ( ( mod & 2 ) && tmp_inp.data( 'is_change' ) )
 				{
-					result[ name ] = value.trim();
+					result[ name ] = value;
 				}
 				//值不为空的
 				if ( ( mod & 1 ) && !sparrow.empty( value ) )
 				{
-					result[ name ] = value.trim();
+					result[ name ] = value;
 				}
 			}
 		}

@@ -1021,6 +1021,7 @@ a:hover {
     text-decoration: none;
 }
 
+
 /**
  * 通用弹窗
  */
@@ -1296,7 +1297,7 @@ a:hover {
     padding-left: 30px;
     line-height: 39px;
     color: #666;
-    background: #eee url("../../main/images/new_icon.png") no-repeat 0 5px;
+    background: #eee url("images/sparrow_icon.png") no-repeat 0 5px;
     float: left;
     font-weight: bold;
 }

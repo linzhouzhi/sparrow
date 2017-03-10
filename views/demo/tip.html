@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <link href="vender/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet" charset="utf-8">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .active{display: inline-block !important }
+        p {
+            border: 1px solid #e6e6e6;
+            margin-bottom: 15px;
+            margin-top: 30px;
+            padding-left: 20px;
+            background: #f7f7f7;
+            color: #088fc8;
+            line-height: 36px;
+        }
+        .pt20 {
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div style="width:800px;margin:0 auto;">
+        <fieldset>
+            <legend>pop_tip——点击显示</legend>
+            <ul>
+                <li><a href="javascript:;" data-pop-tip="肯德基店里。。。服务员:您需要点什么?我：鸡腿堡。服务员:嗯？我:鸡腿堡。服务员：嗯？我：鸡腿堡。服务员：三个鸡腿堡是吗？好的，您稍等。。。。。。我觉的自己见证了一个营销之神的诞生。">简单的pop_tip</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="内容XXXXXXXX"&gt;简单的pop_tip&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="肯德基店里。。。服务员:您需要点什么?我：鸡腿堡。服务员:嗯？我:鸡腿堡。服务员：嗯？我：鸡腿堡。服务员：三个鸡腿堡是吗？好的，您稍等。。。。。。我觉的自己见证了一个营销之神的诞生。" data-pop-width="200">pop_tip宽度设定</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="内容XXXXXXXX" data-pop-width="200"&gt;pop_tip宽度设定&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="肯德基店里。。。服务员:您需要点什么?我：鸡腿堡。服务员:嗯？我:鸡腿堡。服务员：嗯？我：鸡腿堡。服务员：三个鸡腿堡是吗？好的，您稍等。。。。。。我觉的自己见证了一个营销之神的诞生。" data-pop-title="营销之神">pop_tip标题设定</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="内容XXXXXXXX" data-pop-title="营销之神"&gt;pop_tip标题设定&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="肯德基店里。。。服务员:您需要点什么?我：鸡腿堡。服务员:嗯？我:鸡腿堡。服务员：嗯？我：鸡腿堡。服务员：三个鸡腿堡是吗？好的，您稍等。。。。。。我觉的自己见证了一个营销之神的诞生。" data-pop-auto-close="false">不会自动关闭</a>&nbsp;<input type="button" onclick="sparrow_close_pop_tip()" value="js关闭">（使用方法：sparrow_close_pop_tip()关闭）</li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="内容XXXXXXXX" data-pop-auto-close="false"&gt;不会自动关闭&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_pop_tip" data-pop-title="快捷添加">内容从jstpl获取</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="jstpl::模板名称" data-pop-title="快捷添加"&gt;内容从jstpl获取&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_user_info" data-tpl-data="{'user':'王麻子','age':40,'sex':'光棍','hobby':'LUGUAN'}" data-pop-title="用户信息" data-pop-width="180">内容从jstpl获取（带tpl-data参数）</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="jstpl::模板名称" data-tpl-data="{'user':'王麻子'等等等等..}" data-pop-title="用户信息"&gt;内容从jstpl获取（带tpl-data参数）&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_user_info" data-url="/tool/demo/data_user" data-pop-title="用户信息_GET请求" data-pop-width="180">内容从jstpl获取（需要GET请求）</a>
+                </li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="jstpl::模板名称" data-url="/tool/demo/data_user" &gt;内容从jstpl获取（需要GET请求）&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_user_info" data-url="/tool/demo/data_post_user" data-post="{'user':'张三星','age':30,'sex':'未知','hobby':'LOL'}" data-pop-title="用户信息_POST请求" data-pop-width="180">内容从jstpl获取（需要POST请求）</a>
+                </li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="jstpl::模板名称" data-url="/tool/demo/data_post_user" data-post="{'user':'张三星','age':30,'sex':'未知','hobby':'LOL'}"&gt;内容从jstpl获取（需要POST请求）&lt;/a&gt;
+</pre>
+                </li>
+                <li>
+                    <a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_pop_cache" data-url="/tool/demo/pop_cache">内容从jstpl获取_数据缓存【默认】</a>
+                </li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_pop_cache" data-url="/tool/demo/pop_cache"&gt;内容从jstpl获取_数据缓存【默认】&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_pop_cache" data-url="/tool/demo/pop_cache/no_cache=1" data-cache-tip="false">内容从jstpl获取_数据不缓存</a>
+                </li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-tip="jstpl::sparrow/tool/demo_pop_cache" data-url="/tool/demo/pop_cache/no_cache=1" <span class="red">data-cache-tip="false"</span>&gt;内容从jstpl获取_数据不缓存&lt;/a&gt;
+</pre>
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>tip——鼠标移上去显示</legend>
+            <ul>
+                <li><a href="javascript:;" data-tip="让我好好想一想！">简单的tip</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-tip="让我好好想一想"&gt;简单的tip&lt;/a&gt;
+</pre>
+                <li><a href="javascript:;" data-tip="张姐跟她老公一直是单位模范夫妻，今天去送报表单碰到张姐，于是跟她开玩笑：张姐，你老公那么优秀，人人都夸他，你能不能给我举个他不好的例子？张姐：不举。我：唉，张姐干嘛这么维护他，举一个嘛！张姐愤怒的瞪着我：不举！！唉，真羡慕他们感情这么好，这社会能这样的不多了" data-tip-width="300">tip设定宽度</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-tip="内容XXXXXXXX" data-tip-width="300"&gt;tip设定宽度&lt;/a&gt;
+</pre>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>pop弹窗</legend>
+            <ul>
+                <li><a href="javascript:;" data-pop-id="demo_hide_id" data-padding="20">弹出一个隐藏在页面上的ID</a></li>
+                <li>
+<pre>
+<span style="color:red">该ID的元素必须不显示出来的，有 'hide' 的class，不能是自己设定的display:none 或者 由其它class指定的不显示。</span>
+&lt;a href="javascript:;" data-pop-id="demo_hide_id" data-padding="20"&gt;弹出一个隐藏在页面上的ID&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-id="demo_add_admin" data-tpl="sparrow/tool/demo_add" data-padding="20">获取一个js_tpl弹窗</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-id="demo_add_admin" data-tpl="sparrow/tool/demo_add" data-padding="20"&gt;获取一个js_tpl弹窗&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-id="demo_add_admin" data-tpl="sparrow/tool/demo_add" data-padding="20" data-title="添加管理员" data-width="600">更多参数</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-id="demo_add_admin" data-tpl="sparrow/tool/demo_add" data-padding="20"&gt;获取一个js_tpl弹窗&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-id="demo_user_info" data-tpl="sparrow/tool/demo_user_info" data-url="/tool/demo/data_user" data-padding="20" data-title="闷骚男信息" data-width="200">带URL_GET的弹窗</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-id="demo_user_info" data-tpl="sparrow/tool/demo_user_info" data-url="/tool/demo/data_user" data-padding="20" data-title="闷骚男信息" data-width="200"&gt;带URL_GET的弹窗&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-id="demo_user_info" data-tpl="sparrow/tool/demo_user_info" data-url="/tool/demo/data_post_user" data-post="{'user':'张三星','age':30,'sex':'未知','hobby':'LOL'}" data-padding="20" data-title="数据是POST到服务器的" data-width="200">带URL_POST的弹窗</a></li>
+                <li>
+<pre>
+<span style="color:red">请注意：只能是比较规则的数据，所有的双引号要用单引号替换。比如{"user":"张三星"} 要写成 {'user':'张三星'}</span>
+&lt;a href="javascript:;" data-pop-id="demo_user_info" data-tpl="sparrow/tool/demo_user_info" data-url="/tool/demo/data_post_user" data-post="{'user':'张三星','age':30,'sex':'未知','hobby':'LOL'}" data-padding="20" data-title="数据是POST到服务器的" data-width="200"&gt;带URL_GET的弹窗&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-pop-id="demo_user_info" data-tpl="sparrow/tool/demo_user_info" data-tpl-data="{'user':'王麻子','age':40,'sex':'光棍','hobby':'LUGUAN'}" data-padding="20" data-title="数据是传入模板的" data-width="200">直接传数据到模板</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-pop-id="demo_user_info" data-tpl="sparrow/tool/demo_user_info" data-tpl-data="{'user':'王麻子','age':40,'sex':'光棍','hobby':'LUGUAN'}" data-padding="20" data-title="数据是传入模板的" data-width="200"&gt;带URL_GET的弹窗&lt;/a&gt;
+</pre>
+                </li>
+                <li><a href="javascript:;" data-capture="content_id">捕获页面上存在的内容</a></li>
+                <li>
+<pre>
+&lt;a href="javascript:;" data-capture="content_id"&gt;捕获页面上存在的内容&lt;/a&gt;
+</pre>
+                </li>
+                <li>
+                    <ul id="content_id" style="padding:10px;list-style-type: null">
+                        <li>我的ID是 content_id</li>
+                        <li>测试内容测试内容</li>
+                        <li>测试内容测试内容</li>
+                        <li>测试内容测试内容</li>
+                    </ul>
+                </li>
+            </ul>
+        </fieldset>
+    </div>
+    <div id="demo_hide_id" class="hide">
+        <form class="form-horizontal" id="admin_add_form">
+            <div class="form-group" id="admin_name_div">
+                <label  class="col-sm-4 control-label">用户名</label>
+                <div class="col-sm-8">
+                    <input name="admin_name" type="text" class="form-control" placeholder="请输入用户名" id="admin_name_text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-4 control-label">密码</label>
+                <div class="col-sm-8">
+                    <input name="admin_pwd" type="password" class="form-control" placeholder="请输入密码" id="admin_pwd_text">
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="button" class="btn btn-primary"> 登录 </button>
+                    <button type="button" class="btn" i="close"> 关闭 </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/layer/layer.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/tool.js"></script>
+<script src="js/util.js"></script>
+<script src="js/json.js"></script>
+<script src="js/window.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/pack.js"></script>
+<script src="js/smarty.js"></script>ß
+<script src="js/search_form.js"></script>
+<script src="js/tab.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/tip.js"></script>
+<script src="js/static.js"></script>
+</html>
