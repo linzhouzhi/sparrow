@@ -1143,7 +1143,7 @@ var sparrow_form = {}
 	 */
 	sparrow_form.init_checkbox = function( name, values ){
 		$( ':checkbox[name="'+ name +'"]' ).each( function( i, item ){
-			if ( -1 !== sparrow.in_array( parseInt(item.value), values) )
+			if ( -1 !== sparrow.in_array( item.value, values) )
 			{
 				$( item ).trigger( 'focus' ).trigger( 'click' ).trigger( 'blur' );
 			}
@@ -1154,7 +1154,8 @@ var sparrow_form = {}
 	 * 初始化 select
 	 */
 	sparrow_form.init_select = function( name, value ){
-		$('select[name="' + name + '"]').children().each( function( i, item ){
+		var select = $('select[name="' + name + '"]');
+		select.children().each( function( i, item ){
 			if ( item.value == value )
 			{
 				$( item ).attr("selected",true);
@@ -1393,7 +1394,7 @@ var sparrow_form = {}
 	/**
 	 * textarea input显示输入的字数 text_name_input_num
 	 */
-	function add_count_input_num( target ) {
+	sparrow_form.init_count_input_num = function (target) {
 		$( 'textarea[name="' + target + '"]' ).bind('input selectionchange propertychange',function () {
 			var input = $( this );
 			var name = input.attr( 'name' );
@@ -1422,7 +1423,72 @@ var sparrow_form = {}
 		});
 	}
 
+	/**
+	 * 有多个 data-grpup
+	 */
+	sparrow_form.init_group_input = function ( target ) {
+		var input_str = target;
+		var input_list = input_str.split(",");
+		var target_tip_id = input_list.join("_") + "_tip";
+		var target_tip = $("#" + target_tip_id );
+		var target_count = parseInt( $("#" + target_tip_id ).data("require-count") );
+		var msg = target_tip.text();
+		$("[data-group='" + target + "']").on('blur',function () {
+			var is_error = false;
+			var input_count = 0;
+
+			for(var i = 0; i < input_list.length; i++ )
+			{
+				if( $( "#" + input_list[i] + "_tip" ).hasClass("sparrow_input_tip_error"))
+				{
+					is_error = true;
+					break;
+				}
+				if( $('[name="' + input_list[i] + '"]').val() )
+				{
+					input_count++;
+				}
+
+			}
+			if( !is_error && (input_count >= target_count) )
+			{
+				show_tip_msg( target_tip, 0, msg, ok_css );
+			}
+			else
+			{
+				show_tip_msg( target_tip, 0, msg, error_css );
+			}
+		});
+
+		$("[data-group='" + target + "']").on('focus',function () {
+			show_tip_msg( target_tip, 0, msg, info_css );
+		});
+	}
 
 	$( document ).on( 'click', '.sparrow_input_tip_close', function(){
 		$( this ).parent().addClass( 'hide' );
 	} );
+
+	$( document ).ready(function () {
+		// checkbox 默认选择
+		$("input[type='checkbox'][data-require='1']").each( function( i, item ){
+			var name = item.name;
+			var default_checked = String( $(item).data("select-default") );
+			var checked_values = default_checked.split(",");
+			sparrow_form.init_checkbox( name, checked_values );
+		} );
+		// select  默认选择
+		$("select").each(function ( i, item ) {
+			var name = item.name;
+			var default_value = $(item).data("select-default");
+			sparrow_form.init_select( name, default_value);
+		})
+		// radio 默认选择
+
+		$("input[type='radio']").each(function (i, item) {
+			var name = item.name;
+			var default_value = $(item).data("select-default");
+			sparrow_form.init_radio( name, default_value );
+		})
+
+	});

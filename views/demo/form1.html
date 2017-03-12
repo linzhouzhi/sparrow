@@ -56,14 +56,15 @@
             <div></div>
 
             <label>电话号码：</label>
-            <input type="text" name="tel" data-type="mobile" data-group="tel,yy" class="form-control">
+            <input type="text" name="tel" data-type="mobile" data-group="tel,yy,mobile" class="form-control">
             <div id="tel_tip"></div>
             <label>YY语音：</label>
-            <input type="text" name="yy" data-type="mobile" data-group="tel,yy" class="form-control">
+            <input type="text" name="yy" data-type="mobile" data-group="tel,yy,mobile" class="form-control">
             <div id="yy_tip"></div>
             <label>手机号：</label>
-            <input type="text" name="mobile" data-type="mobile" class="form-control" data-require="tel,yy">
-            <div id="mobile_tip">手机号、电话号码、YY语言任填一个</div>
+            <input type="text" name="mobile" data-type="mobile" class="form-control" data-group="tel,yy,mobile">
+            <div id="mobile_tip"></div>
+            <div id="tel_yy_mobile_tip" data-require-count="2" class="sparrow_input_tip_info">手机号、电话号码、YY语言任填2个</div>
 
             <label>价格：</label>
             <input type="text" data-type="price" name="price" data-precision="2" data-min="0" data-max="200" class="form-control" data-format-msg="价格输入出错">
@@ -88,7 +89,7 @@
 
             <label>爱好：</label>
             <div>
-                <label><input type="checkbox" value="1" name="hobby" data-require="1" data-max-check="4" data-max-check-msg="你最多可以选择4个" data-min-check="2" data-min-check-msg="您至少选择2个">乒乓球</label>
+                <label><input type="checkbox" value="1" name="hobby" data-require="1" data-select-default="3,4" data-max-check="4" data-max-check-msg="你最多可以选择4个" data-min-check="2" data-min-check-msg="您至少选择2个">乒乓球</label>
                 <label><input type="checkbox" value="2" name="hobby" >羽毛球</label>
                 <label><input type="checkbox" value="3" name="hobby" >PaPaPa</label>
                 <label><input type="checkbox" value="4" name="hobby" >Luguan</label>
@@ -107,7 +108,7 @@
 
             <label>学历：</label>
             <div>
-                <select name="education" class="form-control" data-require="1" data-select-default="1"
+                <select name="education" class="form-control" data-require="1" data-select-default="2"
                         data-require-msg="请选择你的学历">
                     <option value="0">请选择学历</option>
                     <option value="1">初中</option>
@@ -128,7 +129,7 @@
                 <span class="re_left"><span class="icon_index icon_index_24"></span>稿件内容:</span>
                 <span class="lh30" id="content_change_box">
             <label data-sparrow-tab-item="out"><input type="radio" name="content_type"  data-require="1" value="1">外部链接</label>
-            <label data-sparrow-tab-item="up" ><input type="radio" name="content_type"  data-require="1" value="2">上传文档</label>
+            <label data-sparrow-tab-item="up" ><input type="radio" name="content_type" data-select-default="2" data-require="1" value="2">上传文档</label>
         </span>
                 <span class="sparrow_input_tip_2 hide" id="content_tip"></span>
             </div>
@@ -154,7 +155,7 @@
             </div>
 
             <label>
-                <input type="checkbox" value="1" data-require="1" name="agree">我已经阅读并且同意注册条款
+                <input type="checkbox" value="1" data-require="1" data-select-default="1" name="agree">我已经阅读并且同意注册条款
             </label>
             <div class="sparrow_input_tip_info" id="agree_tip">必须同意条款才能注册</div>
             <button id="create_submit_button" class="btn btn-lg btn-primary btn-block" type="submit">提 交</button>
@@ -184,9 +185,12 @@
     window.SCRIPT_FILE = "http://localhost:8081/"
     set_server_arg(1460194057, "v0.2", true, 1);
 
-    sparrow_form.init_checkbox( 'hobby', [3,2] );
-    sparrow_form.init_select( 'education', 2);
-    sparrow_form.init_radio( 'content_type', 2 );
+    /**
+     * 加入 textarea 可计算输入字数
+     */
+    sparrow_form.init_count_input_num( "text_name" );
+    // 支持多个选一个或多个
+    sparrow_form.init_group_input( "tel,yy,mobile" );
     /**
      * 密码格式检查
      */
@@ -211,18 +215,13 @@
         post_form_data("demo_form");
     });
 
-    /**
-     * 加入 textarea 可计算输入字数
-     */
-    add_count_input_num( "text_name" );
-
-    /**
+     /*
      * 弹窗检查
      */
     $("#popbtn").click(function () {
         smarty.open( 'jstpl/form', {}, { title: 'Demo add', width:600, id: 'demo_admin_add_win'},function(){
             //这里写回调啊
-            add_count_input_num( 'pop_text_name' );
+            sparrow_form.init_count_input_num( 'pop_text_name' );
             $( '#pop_create_submit_button' ).click(function () {
                 post_form_data("pop_form");
             });
