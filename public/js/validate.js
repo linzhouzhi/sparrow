@@ -1,12 +1,18 @@
 var $ = jQuery.noConflict();
 var sparrow_form = {}
 
-	
 	var error_css = 'error', ok_css = 'ok', info_css = 'info';
 	$( document ).on( 'focus', 'input,textarea,select', input_box_focus );
 	$( document ).on( 'blur', 'input,textarea,select', input_box_blur );
-	$( document ).on( 'change', 'input,textarea', function(){
+	$( document ).on( 'change', 'input,textarea', input_box_change );
+
+	/**
+	 * 内容change
+	 */
+	function input_box_change( inputobj )
+	{
 		var input = $( this );
+
 		//如果是checkbox
 		if ( 'checkbox' === this.type )
 		{
@@ -32,7 +38,9 @@ var sparrow_form = {}
 			}
 			input.trigger( 'blur' );
 		}
-	} );
+	}
+
+
 	var ignore_list = {
 		button: true,
 		submit: true,
@@ -124,10 +132,6 @@ var sparrow_form = {}
 	 */
 	function input_first_forcus( input )
 	{
-		if ( input.data( 'first-focus' ) )
-		{
-			return;
-		}
 		var tmp = input_get_tip_box( input[ 0 ] );
 		var tip_box = tmp.box;
 		if ( null === tip_box )
@@ -148,7 +152,7 @@ var sparrow_form = {}
 				{
 					dev_tip_msg( input, '主页面的js没有引用 colorpicker' );
 				}
-				break;
+			break;
 		}
 		input.data( 'first-focus', 1 );
 		input.data( 'default-css', input[ 0 ].className );
@@ -203,6 +207,7 @@ var sparrow_form = {}
 	function data_require_check( input, input_value )
 	{
 		var value_require = input.data( 'require' );
+
 		if ( !value_require )
 		{
 			var if_require = input.data( 'require-if' );
@@ -234,10 +239,7 @@ var sparrow_form = {}
 				}
 			}
 		}
-		var result = {
-			must: value_require,
-			is_ok: false
-		};
+
 		//必须填写
 		if ( value_require )
 		{
@@ -246,7 +248,7 @@ var sparrow_form = {}
 				var def_value = input.data( 'select-default' );
 				if ( def_value == input_value )
 				{
-					return result;
+					return false;
 				}
 			}
 			if ( 'checkbox' === input.attr( 'type' ) )
@@ -260,18 +262,16 @@ var sparrow_form = {}
 					}
 				} );
 				input.data( 'check-count', check_num );
-				result.is_ok = ( check_num > 0 );
-				return result;
+				return check_num > 0;
 			}
 			var is_empty = ( input_value.length < 1 );
 			//如果值为空, 检查是否是和其它input关联检查
 			if ( is_empty && !input_require_check( input, value_require ) )
 			{
-				return result;
+				return false;
 			}
 		}
-		result.is_ok = true;
-		return result;
+		return true;
 	}
 
 	/**
@@ -375,10 +375,9 @@ var sparrow_form = {}
 			reset_tip_box( tip_box, tip_box_type );
 		}
 		var tip_box_type = tmp.type;
-		var require_re = data_require_check( input, input_value );
-		var require_check = require_re.is_ok;
-		var type_check = true, len_check = true, url_check = true, check_max_re = true;
-		if ( input_value.length > 0 && require_re.must )
+		var require_check = data_require_check( input, input_value );
+		var type_check = true, len_check = true, url_check = true, check_max_re = true,check_min_re = true;
+		if ( input_value.length > 0 )
 		{
 			type_check = data_type_check( input, input_value );
 			len_check = data_len_check( input );
@@ -389,6 +388,7 @@ var sparrow_form = {}
 			var require_num = input.data( 'require' );
 			var check_count = input.data( 'check-count' );
 			var max_num = parseInt( input.data( 'max-check') );
+			var min_num = parseInt( input.data( 'min-check') );
 			if ( is_encode_eve && require_num > check_count )
 			{
 				require_check = false;
@@ -397,13 +397,18 @@ var sparrow_form = {}
 			{
 				check_max_re = false;
 			}
+			else if ( min_num > 0 && check_count < min_num )
+			{
+				check_min_re = false;
+			}
 		}
 		//sparrow-checkbox判断
 		if ( input.data( 'checkbox' ) )
 		{
 			input_box_focus.apply( input[ 0 ] );
-			var require_num = input.data( 'require' );
+			var require_num = input.data( 'require' ); // require 数值表示可以填的数目
 			var max_num = parseInt( input.data( 'max-check') );
+			var min_num = parseInt( input.data( 'min-check') );
 			var arr = input.val().split( ',' );
 			if ( is_encode_eve && require_num > arr.length )
 			{
@@ -413,11 +418,15 @@ var sparrow_form = {}
 			{
 				check_max_re = false;
 			}
+			else if ( min_num > 0 && arr.length < min_num )
+			{
+				check_min_re = false;
+			}
 		}
 		//服务端检测
 		var url = input.data( 'server-check' ), url_check_msg = '';
 		//如果是调用 sparrow_form.encode方法, 不会执行这里
-		if ( url && !is_encode_eve && require_check && type_check && len_check && require_re.must )
+		if ( url && !is_encode_eve && require_check && type_check && len_check )
 		{
 			var checking = input.data( 'checking' );
 			if ( checking )
@@ -430,7 +439,7 @@ var sparrow_form = {}
 				return;
 			}
 			input.data( 'checking', 1 );
-			//var ajax = require( 'ajax' ); lzz delte
+			//var ajax = require( 'ajax' );
 			var data = {};
 			data[ name ] = input.val().trim();
 			if ( 3 !== tip_box_type )
@@ -440,7 +449,7 @@ var sparrow_form = {}
 			ajax.post( url, data, function( re, arg ){
 				arg.data( 'checking', 0 );
 				reset_tip_box( tip_box, tip_box_type );
-				if ( re.sparrowphp_error_code > 0 )
+				if ( re.sparrow_error_code > 0 )
 				{
 					url_check = false;
 					url_check_msg = re.error_msg;
@@ -452,13 +461,20 @@ var sparrow_form = {}
 		{
 			show_check_result();
 		}
-		return require_check && type_check && len_check && check_max_re;
+
+		//如果是 包含 group-data lzz
+		var group_data = input.data( "group" );
+		if( "string" == typeof group_data ){
+			$("[data-require='" + group_data + "']").trigger( 'focus' ).trigger( 'blur' );
+		}
+
+		return require_check && type_check && len_check && check_max_re && check_min_re;
 		/**
 		 * 显示检查结果
 		 */
 		function show_check_result()
 		{
-			if ( require_check && type_check && len_check && url_check && check_max_re )
+			if ( require_check && type_check && len_check && url_check && check_max_re && check_min_re )
 			{
 				if ( 'SELECT' !== input[ 0 ].nodeName && 'checkbox' !== input.attr( 'type' ) && input_value.length > 0 )
 				{
@@ -489,6 +505,10 @@ var sparrow_form = {}
 			else if ( !check_max_re )
 			{
 				err_msg = tip_msg_detect( input, 'max-check-msg' );
+			}
+			else if ( !check_min_re )
+			{
+				err_msg = tip_msg_detect( input, 'min-check-msg' );
 			}
 			show_tip_error( tip_box, tip_box_type, err_msg );
 		}
@@ -674,7 +694,7 @@ var sparrow_form = {}
 	}
 
 	/**
-	 * 日期格式
+	 * 日期格式 2017-03-09
 	 */
 	check_type.date = function( input, date_str )
 	{
@@ -691,7 +711,7 @@ var sparrow_form = {}
 	}
 
 	/**
-	 * 时间格式
+	 * 时间格式 2017-06-22 23:08:22
 	 */
 	check_type.datetime = function( input, date_str )
 	{
@@ -738,7 +758,7 @@ var sparrow_form = {}
 	}
 
 	/**
-	 * 时间格式
+	 * 颜色
 	 */
 	check_type.color = function( input, str )
 	{
@@ -757,7 +777,7 @@ var sparrow_form = {}
 		{
 			return false;
 		}
-		if ( !/^[\w\-.]+$/.test( tmp[ 0 ] ) )
+		if ( !/^[\w.]+$/.test( tmp[ 0 ] ) )
 		{
 			return false;
 		}
@@ -765,7 +785,7 @@ var sparrow_form = {}
 		{
 			return false;
 		}
-		if ( !/^[a-z\-A-Z\d]+\.[a-zA-Z]{2,4}(\.[a-zA-Z]{2,4})?$/.test( tmp[ 1 ] ) )
+		if ( !/^[a-zA-Z\d]+\.[a-zA-Z]{2,4}(\.[a-zA-Z]{2,4})?$/.test( tmp[ 1 ] ) )
 		{
 			return false;
 		}
@@ -896,7 +916,7 @@ var sparrow_form = {}
 	/**
 	 * 检查字符串
 	 */
-	check_type.password = check_type.text = check_type.hidden = check_type.textarea = function( input, value )
+	check_type.password = check_type.text = check_type.hidden = function( input, value )
 	{
 		var format = input.data( 'format' );
 		//有一些特殊情况
@@ -913,7 +933,7 @@ var sparrow_form = {}
 						dev_tip_msg( input, '自定义检查函数:' + func + '不存在' );
 						return false;
 					}
-					return window[ func ]( input, value );
+					return window[ func ]( value );
 				}
 				//必须和另外一个表单相同
 				if ( 0 === format.indexOf( 'same::' ) )
@@ -1070,7 +1090,7 @@ var sparrow_form = {}
 					}
 				} );
 				return tmp_val.join( ',' );
-				break;
+			break;
 			case 'radio':
 				var tmp_val;
 				inp.each( function(i, item){
@@ -1079,10 +1099,10 @@ var sparrow_form = {}
 					}
 				} );
 				return tmp_val;
-				break;
+			break;
 			default:
 				return inp.val().trim();
-				break;
+			break;
 		}
 	}
 
@@ -1103,8 +1123,7 @@ var sparrow_form = {}
 		{
 			return;
 		}
-		input_first_forcus( inp );
-		inp.trigger( 'blur' );
+		inp.trigger( 'focus' ).trigger( 'blur' );
 	}
 
 	/**
@@ -1122,9 +1141,9 @@ var sparrow_form = {}
 	/**
 	 * 初始化checkbox
 	 */
-	sparrow_form.init_checkbox = function( name, value ){
+	sparrow_form.init_checkbox = function( name, values ){
 		$( ':checkbox[name="'+ name +'"]' ).each( function( i, item ){
-			if ( item.value == value )
+			if ( -1 !== sparrow.in_array( parseInt(item.value), values) )
 			{
 				$( item ).trigger( 'focus' ).trigger( 'click' ).trigger( 'blur' );
 			}
@@ -1178,7 +1197,7 @@ var sparrow_form = {}
 			mod = 0;
 		}
 		var black_list = { button: true, submit: true, reset: true, search: true};
-		form_dom.find( 'input,textarea,select' ).each( function( i, item ){
+		form_dom.find( 'input:visible,textarea:visible,select:visible,checkbox:visible,radio:visible' ).each( function( i, item ){
 			if ( 'TEXTAREA' === item.nodeName && 'ke-edit-textarea' === item.className )
 			{
 				return;
@@ -1280,19 +1299,19 @@ var sparrow_form = {}
 			}
 			if ( 0 === mod )
 			{
-				result[ name ] = value.trim();
+				result[ name ] = value;
 			}
 			else
 			{
 				//值发生改变的
 				if ( ( mod & 2 ) && tmp_inp.data( 'is_change' ) )
 				{
-					result[ name ] = value.trim();
+					result[ name ] = value;
 				}
 				//值不为空的
 				if ( ( mod & 1 ) && !sparrow.empty( value ) )
 				{
-					result[ name ] = value.trim();
+					result[ name ] = value;
 				}
 			}
 		}
@@ -1370,6 +1389,40 @@ var sparrow_form = {}
 	{
 		return tip_box.data( 'default-text' ) || '';
 	}
+
+	/**
+	 * textarea input显示输入的字数 text_name_input_num
+	 */
+	function add_count_input_num( target ) {
+		$( 'textarea[name="' + target + '"]' ).bind('input selectionchange propertychange',function () {
+			var input = $( this );
+			var name = input.attr( 'name' );
+			var text = input.val();
+			var counter = text.length;
+			var input_num_tip = $( "#" + name + "_input_num" ).text(counter);
+			// 如果长度超过给定的大小 data-len 那么提示错误
+			var len = input.data('len');
+			var data_range = len.split("-");
+			var max_len = 0;
+			if( data_range.length == 1 )
+			{
+				max_len = data_range[0];
+			}
+			else if( data_range.length == 2 )
+			{
+				max_len = data_range[1];
+			}
+
+			if( max_len && counter > max_len ){
+				sparrow_form.error( name, input.data("len-msg") );
+			}else{
+				sparrow_form.info(name, input.data("len-msg"));
+				//tip_box_default_text($(this));
+			}
+		});
+	}
+
+
 	$( document ).on( 'click', '.sparrow_input_tip_close', function(){
 		$( this ).parent().addClass( 'hide' );
 	} );

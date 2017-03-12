@@ -29,6 +29,11 @@
             <input type="text" name="name" class="form-control" data-require="1" data-len="5-20" data-len-msg="字符串长度为5-20" data-format="[a-zA-Z0-9]+" data-format-msg="只能由英文字母和数字组成" data-server-check="/form/check">
             <div class="sparrow_input_tip_info" id="name_tip">由英文字母和数字组成的5-20个字符</div>
 
+            <label>文本框</label>
+            <textarea type="text" name="text_name" class="form-control" data-require="1" data-len="5-20" data-len-msg="字符串长度为5-20" data-format-msg="只能由英文字母和数字组成"></textarea>
+            <div><span class="sparrow_input_tip_info" id="text_name_tip">由英文字母和数字组成的5-20个字符</span> <span id="text_name_input_num">0</span>/20</div>
+
+
             <label>Email：</label>
             <input type="email" name="email" class="form-control" data-require="1" value="2324@qq.com">
             <div class="sparrow_input_tip_info" id="email_tip">非常重要，当您密码遗失时找回密码需要用您填写的邮箱地址</div>
@@ -47,17 +52,30 @@
             <div class="sparrow_input_tip_info" id="qq_tip">QQ号和微信号任填一个就可以了</div>
 
             <label>微信：</label>
-            <input type="text" name="weixin" class="form-control">
+            <input type="text" name="weixin" data-require="weixin" class="form-control">
             <div></div>
 
+            <label>电话号码：</label>
+            <input type="text" name="tel" data-type="mobile" data-group="tel,yy" class="form-control">
+            <div id="tel_tip"></div>
+            <label>YY语音：</label>
+            <input type="text" name="yy" data-type="mobile" data-group="tel,yy" class="form-control">
+            <div id="yy_tip"></div>
             <label>手机号：</label>
             <input type="text" name="mobile" data-type="mobile" class="form-control" data-require="tel,yy">
-            <div id="mobile_tip" class="sparrow_input_tip_info">手机号、电话号码、YY语言任填一个</div>
+            <div id="mobile_tip">手机号、电话号码、YY语言任填一个</div>
 
             <label>价格：</label>
             <input type="text" data-type="price" name="price" data-precision="2" data-min="0" data-max="200" class="form-control" data-format-msg="价格输入出错">
             <div id="price_tip" class="sparrow_input_tip_info">价格不能超过200元</div>
 
+            <label>日期：</label>
+            <input type="text" data-type="date" name="date" class="form-control">
+            <div id="date_tip" class="sparrow_input_tip_info">请填写正确格式的日期</div>
+
+            <label>时间：</label>
+            <input type="text" data-type="datetime" name="datetime" class="form-control" data-format-msg="输入日期出错">
+            <div id="datetime_tip" class="sparrow_input_tip_info">请填写正确的时间</div>
         </div>
         <div class="col-md-6">
             <label>身高：</label>
@@ -70,7 +88,7 @@
 
             <label>爱好：</label>
             <div>
-                <label><input type="checkbox" value="1" name="hobby" data-require="2" data-max-check="4" data-max-check-msg="你最多可以选择4个">乒乓球</label>
+                <label><input type="checkbox" value="1" name="hobby" data-require="1" data-max-check="4" data-max-check-msg="你最多可以选择4个" data-min-check="2" data-min-check-msg="您至少选择2个">乒乓球</label>
                 <label><input type="checkbox" value="2" name="hobby" >羽毛球</label>
                 <label><input type="checkbox" value="3" name="hobby" >PaPaPa</label>
                 <label><input type="checkbox" value="4" name="hobby" >Luguan</label>
@@ -142,6 +160,7 @@
             <button id="create_submit_button" class="btn btn-lg btn-primary btn-block" type="submit">提 交</button>
         </div>
 
+        <button id="popbtn"> test pop validate </button>
     </div>
 
 </div>
@@ -162,21 +181,24 @@
 <script src="js/validate.js"></script>
 <script src="js/static.js"></script>
 <script>
-    sparrow_form.init_checkbox( 'hobby', 3 );
+    window.SCRIPT_FILE = "http://localhost:8081/"
+    set_server_arg(1460194057, "v0.2", true, 1);
+
+    sparrow_form.init_checkbox( 'hobby', [3,2] );
     sparrow_form.init_select( 'education', 2);
     sparrow_form.init_radio( 'content_type', 2 );
     /**
      * 密码格式检查
      */
-    window.password_check = function( input, str ){
+    window.password_check = function( str ){
         return /[\d]+/.test( str ) && /[A-Z]+/.test( str ) && /[a-z]+/.test( str );
     }
 
     /**
      * 点击提交
      */
-    function post_form_data() {
-        var data = sparrow_form.encode( 'demo_form',0 ); //0 表示所有字段都提交， 2 表示有改变的才提交
+    function post_form_data(target) {
+        var data = sparrow_form.encode( target,0 ); //0 表示所有字段都提交， 2 表示有改变的才提交
         if ( sparrow.empty( data ) )
         {
             return false;
@@ -186,7 +208,25 @@
     }
 
     $( '#create_submit_button' ).click(function () {
-        post_form_data();
+        post_form_data("demo_form");
+    });
+
+    /**
+     * 加入 textarea 可计算输入字数
+     */
+    add_count_input_num( "text_name" );
+
+    /**
+     * 弹窗检查
+     */
+    $("#popbtn").click(function () {
+        smarty.open( 'jstpl/form', {}, { title: 'Demo add', width:600, id: 'demo_admin_add_win'},function(){
+            //这里写回调啊
+            add_count_input_num( 'pop_text_name' );
+            $( '#pop_create_submit_button' ).click(function () {
+                post_form_data("pop_form");
+            });
+        } );
     });
 
 </script>
