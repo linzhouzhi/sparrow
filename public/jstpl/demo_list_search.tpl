@@ -20,6 +20,7 @@
 		{{/foreach}}
 	</tbody>
 </table>
+<h1> {{sum val1=1 val2=3 val3=4}} </h1>
 <pre>
 make_page 参数说明:<br/>
 1.page: 当前页 【必传】<br/>

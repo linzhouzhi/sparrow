@@ -242,6 +242,10 @@
 		//smarty_reset_keep();
 		private_var = { };				//初始化该保留关键字
 		var tpl_result = smarty_do_parse( tpl_name );
+		// 如果是开发模式打印出来
+		if( sparrow.is_dev() ){
+			console.log( tpl_result );
+		}
 		if ( is_eval )
 		{
 			eval( tpl_result );
@@ -332,12 +336,13 @@
 			//正式的环境, 直接使用编译好的tpl
 			else
 			{
-				var tpl_dir = tpl_name.split( '/' );
-				tpl_dir.pop();
-				tpl_dir.push( 'tpl' );
-				tpl_name = tpl_dir.join( '/' );
-				var js_file = window.STATIC_URL + 'jstpl/' + tpl_name + '.js';
-				seajs.use( js_file, _on_tpl_load );
+				 var tpl_dir = tpl_name.split( '/' );
+				 tpl_dir.pop();
+				 tpl_dir.push( 'tpl' );
+				 tpl_name = tpl_dir.join( '/' );
+				 var js_file = window.STATIC_URL + 'jstpl/' + tpl_name + '.js';
+				 seajs.use( js_file, _on_tpl_load );
+
 			}
 		}
 	}
@@ -454,7 +459,8 @@
 		}
 		re_func.push( result_var + ".push('" + smarty_clean_str( tpl_code.substring( tmp_end_pos + suffix_len ) ) +
 				"');return " + result_var + ".join('');}" );
-		return re_func.join( '' );
+		var result_js_tpl = re_func.join( '' );
+		return result_js_tpl;
 	}
 
 	/**

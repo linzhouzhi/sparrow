@@ -1,6 +1,7 @@
 var express = require('express');
 var ejs = require('ejs');
 var path = require('path');
+var fs = require('fs');
 var app = express();
 app.use(express.static('public'));
 app.set('views', __dirname + '/views');
@@ -32,6 +33,16 @@ app.post('/process_post', urlencodedParser, function (req, res) {
 
 
 /* ------------------------- demo start --------------------------*/
+
+// 编译 smarty
+app.post('/compile_smarty', urlencodedParser, function (req, res) {
+    fs.writeFile(path.join(__dirname, 'public/c_jstpl/' + req.body.tpl_name +'.js'), req.body.jstpl, function (err) {
+        if (err) throw err;
+        console.log("Export Account Success!");
+    });
+    res.end(JSON.stringify({"h":"llo"}));
+})
+
 app.get('/demo', function (req, res) {
     console.log( req.query.page );
     res.render('demo/index', {title:'paint title'});
