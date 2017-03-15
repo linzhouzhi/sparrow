@@ -34,6 +34,7 @@ app.post('/process_post', urlencodedParser, function (req, res) {
 
 /* ------------------------- demo start --------------------------*/
 
+/*
 // 编译 smarty
 app.post('/compile_smarty', urlencodedParser, function (req, res) {
     fs.writeFile(path.join(__dirname, 'public/c_jstpl/' + req.body.tpl_name +'.js'), req.body.jstpl, function (err) {
@@ -42,6 +43,7 @@ app.post('/compile_smarty', urlencodedParser, function (req, res) {
     });
     res.end(JSON.stringify({"h":"llo"}));
 })
+*/
 
 app.get('/demo', function (req, res) {
     console.log( req.query.page );

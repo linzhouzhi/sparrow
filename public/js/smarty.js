@@ -244,7 +244,7 @@
 		var tpl_result = smarty_do_parse( tpl_name );
 		// 如果是开发模式打印出来
 		if( sparrow.is_dev() ){
-			console.log( tpl_result );
+			//console.log( tpl_result );
 		}
 		if ( is_eval )
 		{
@@ -341,7 +341,7 @@
 				 tpl_dir.push( 'tpl' );
 				 tpl_name = tpl_dir.join( '/' );
 				 var js_file = window.STATIC_URL + 'jstpl/' + tpl_name + '.js';
-				 seajs.use( js_file, _on_tpl_load );
+				 //seajs.use( js_file, _on_tpl_load );
 
 			}
 		}

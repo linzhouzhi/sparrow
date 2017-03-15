@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <link rel="stylesheet" href="vender/fakeloader/css/fakeLoader.css">
     <link href="vender/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet" charset="utf-8">
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,6 +23,7 @@
     </style>
 </head>
 <body>
+<div id="iframe-load" class="container"></div>
 <div class="container">
     <div id="demo_form">
         <div class="col-md-6">
@@ -181,7 +183,9 @@
 <script src="js/tab.js"></script>
 <script src="js/validate.js"></script>
 <script src="js/static.js"></script>
-<script>
+<script src="vender/fakeloader/js/fakeLoader.min.js"></script>
+<script src="js/footer.js"></script>
+<script type="text/javascript">
     window.SCRIPT_FILE = "http://localhost:8081/"
     set_server_arg(1460194057, "v0.2", true, 1);
 

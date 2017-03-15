@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <link rel="stylesheet" href="vender/fakeloader/css/fakeLoader.css">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div id="iframe-load" class="container"></div>
 <div class="container">
 
     <!--**************************************************************************-->
@@ -121,7 +123,10 @@
 <script src="js/search_form.js"></script>
 <script src="js/validate.js"></script>
 <script src="js/static.js"></script>
+<script src="vender/fakeloader/js/fakeLoader.min.js"></script>
+<script src="js/footer.js"></script>
 <script type="text/javascript">
+
     window.SCRIPT_FILE = "http://localhost:8081/";
     window.STATIC_URL = window.SCRIPT_FILE;
     set_server_arg(1460194057, "v0.2", true, 1);

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <link rel="stylesheet" href="vender/fakeloader/css/fakeLoader.css">
     <link href="vender/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet" charset="utf-8">
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,7 +23,7 @@
     </style>
 </head>
 <body>
-
+<div id="iframe-load" class="container"></div>
 <div class="container">
     <p>标准用法： 有标签 有内容 每标签的 data-sparrow-tab-item 不相同，每个标签对应一个 data-sparrow-tab-body</p>
     <ul class="nav nav-tabs">
@@ -155,9 +156,10 @@
 <script src="js/tab.js"></script>
 <script src="js/validate.js"></script>
 <script src="js/static.js"></script>
-<script>
+<script src="vender/fakeloader/js/fakeLoader.min.js"></script>
+<script src="js/footer.js"></script>
 
+<script type="text/javascript">
     sparrow_form.init_radio( 'content_type', 2 );
-
 </script>
 </html>

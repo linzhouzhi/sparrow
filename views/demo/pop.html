@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <link rel="stylesheet" href="vender/fakeloader/css/fakeLoader.css">
     <meta charset="UTF-8">
     <title>弹窗demo</title>
 </head>
 <body>
+<div id="iframe-load" class="container"></div>
 <div class="container">
     <div style="width:800px;margin:0 auto;">
         <fieldset>
@@ -180,7 +182,11 @@
 <script src="js/search_form.js"></script>
 <script src="js/validate.js"></script>
 <script src="js/static.js"></script>
-<script>
+<script src="vender/fakeloader/js/fakeLoader.min.js"></script>
+<script src="js/footer.js"></script>
+
+<script type="text/javascript">
+
     var $ = jQuery.noConflict();
     $( '#test_pop_alert_1' ).click( function(){
         sparrow_win.alert( '再不努力我们就老了！' );
@@ -400,5 +406,6 @@
     $( '#test_open_7' ).click( function(){
         sparrow_win.open( '俺家开花店的，昨天七夕刚过正打扫卫生，一哥们进来买花，我问需要什么?<br>哥们答：玫瑰一支，焉点的!<br>我：不解? <br>哥们答：昨天忘了今天回家好告诉媳妇，玫瑰是七夕买的，忙忘了放焉了!<br/>尼玛人才啊!', {width:'800px', height:'600px',title:'指定高和宽'} );
     } );
+
 </script>
 </html>
