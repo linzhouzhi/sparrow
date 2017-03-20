@@ -350,7 +350,8 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a data-url="demo" class="tab-link"><i class="fa fa-circle-o"></i> smarty js</a></li>
+                        <li><a data-url="smarty1" class="tab-link"><i class="fa fa-circle-o"></i> smarty1 js</a></li>
+                        <li><a data-url="smarty2" class="tab-link"><i class="fa fa-circle-o"></i> smarty2 js</a></li>
                         <li><a data-url="pop" class="tab-link"><i class="fa fa-circle-o"></i> pop js</a></li>
                         <li><a data-url="form1" class="tab-link"><i class="fa fa-circle-o"></i> form1 js</a></li>
                         <li><a data-url="form2" class="tab-link"><i class="fa fa-circle-o"></i> form2 js</a></li>
@@ -388,7 +389,7 @@
             </ul>
         </div>
         <div id="content-body">
-
+            <div class="iframe-load"></div>
         </div>
     </div>
     <!-- /.content-wrapper -->
@@ -406,10 +407,9 @@
 <!-- jQuery 2.2.3 -->
 <script src="vender/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="vender/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="vender/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <!-- AdminLTE App -->
 <script src="vender/adminlte/dist/js/app.js"></script>
-
 <script>
     var $ = jQuery.noConflict();
     window.active_li_check = function () {
@@ -420,6 +420,7 @@
             $("a[data-url='" + active_url+ "']").parent().addClass("active");
         }
     }
+
     /* init */
     $(document).ready(function () {
         function content_body_height() {
@@ -449,20 +450,21 @@
         $('#tab-list li').removeClass("li-active"); // 先移除其它 li 的样式
         /* add tab iframe */
         $("#tab-list").append("<li class='li-active' data-url='" + url + "'>" + link_name + tag_remove + "</li>");
-        $('#tab-list li').on("click",function () {
+        $('#tab-list li').unbind('click').click(function () {
             var index = $(this).index();
-            if( $(this).hasClass("li-active") ){
+            if( $(this).hasClass("li-active") ){ // 如果是被选中的状态那就继续加载一次
                 $("#content-body > iframe").eq(index).attr("src", $(this).data("url"));
-                return;
+                return false;
             }
             $('#tab-list li').removeClass("li-active");
             $(this).addClass("li-active");
             $("#content-body > iframe").addClass("hidden");
             $("#content-body > iframe").eq(index).removeClass("hidden");
+            return false;
         });
 
         // remove operator
-        $('#tab-list > li > span').on("click",function () {
+        $('#tab-list > li > span').unbind('click').click(function () {
             $(this).parent().remove();
             var index = $(this).data("tab-index");
             $("iframe[data-tab-index=" + index + "]").remove();

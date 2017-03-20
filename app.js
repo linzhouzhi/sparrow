@@ -45,9 +45,14 @@ app.post('/compile_smarty', urlencodedParser, function (req, res) {
 })
 */
 
-app.get('/demo', function (req, res) {
+app.get('/smarty1', function (req, res) {
     console.log( req.query.page );
-    res.render('demo/index', {title:'paint title'});
+    res.render('demo/smarty1', {title:'paint title'});
+})
+
+app.get('/smarty2', function (req, res) {
+    console.log( req.query.page );
+    res.render('demo/smarty2', {title:'paint title'});
 })
 
 app.get('/pop', function (req, res) {

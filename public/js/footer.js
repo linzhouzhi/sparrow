@@ -3,9 +3,10 @@
  */
 $(document).ready(function () {
     // 加载效果
-    $("#iframe-load").fakeLoader({
-        timeToHide:1200,
-        bgColor:"#00a65a",
+    $(".iframe-load:visible").fakeLoader({
+        timeToHide:800,
+        bgColor:"#ecf0f5",
         spinner:"spinner1"
     });
+
 });

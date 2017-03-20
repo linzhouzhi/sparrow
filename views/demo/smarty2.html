@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="js/sparrow.css" rel="stylesheet" charset="utf-8">
+    <link rel="stylesheet" href="vender/fakeloader/css/fakeLoader.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container iframe-load"></div>
+<div class="container">
+    <div id="admin_list_div">
+    </div>
+</div>
+<textarea id="admin_list_div_html" class="hidden">
+    <!--这里是js模板-->
+    <table class="table table-striped  m-b-none">
+        <thead>
+        <tr>
+            <th class="with-checkbox">
+                <input type="checkbox" />
+            </th>
+            <th>ID</th>
+            <th class="col-sm-1">管理员</th>
+            <th class="col-sm-1 mn70">密码</th>
+            <th class="col-sm-2">权限</th>
+            <th class="col-sm-2">login_time</th>
+            <th class="col-sm-2">编辑</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{foreach from=$admin_list item=rs}}
+        <tr id="admin_row_{{$rs.id}}">
+            {{include file="jstpl/demo_list_row.tpl"}}
+        </tr>
+        {{/foreach}}
+        </tbody>
+    </table>
+    <h1> {{sum val1=1 val2=3 val3=4}} </h1>
+    {{make_page page=$page page_count=$page_count id="admin_list_div" right_fix=-1 url="ajax_demo"}}
+</textarea>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/layer/layer.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/tool.js"></script>
+<script src="js/util.js"></script>
+<script src="js/json.js"></script>
+<script src="js/window.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/pack.js"></script>
+<script src="js/smarty.js"></script>
+<script src="js/search_form.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/static.js"></script>
+<script src="vender/fakeloader/js/fakeLoader.min.js"></script>
+<script src="js/footer.js"></script>
+<script type="text/javascript">
+
+    window.SCRIPT_FILE = "http://localhost:8081/";
+    window.STATIC_URL = window.SCRIPT_FILE;
+    set_server_arg(1460194057, "v0.2", true, 1);
+    window.OUT_DATA = {"admin_list":[{"id":"646","admin_name":"aaaaabnbm","admin_pwd":"c3e61d5768d7eb88902b30fb253ee18f","type":"3","login_time":"0"},{"id":"645","admin_name":"dcfsafcdsjn","admin_pwd":"0539c5e609286a3fa6a0f3d614b3f7e0","type":"4","login_time":"0"},{"id":"644","admin_name":"huang777","admin_pwd":"asdfads","type":"0","login_time":"0"},{"id":"637","admin_name":"sadfw","admin_pwd":"5744a91e46bc4d6233785eab194e7853","type":"4","login_time":"0"},{"id":"636","admin_name":"no636111","admin_pwd":"a711680881ebe2f079ae87715775ffd5","type":"4","login_time":"0"},{"id":"635","admin_name":"zzzzzzbbb","admin_pwd":"d4a805a07e66ce22f3f511823b38dd08","type":"3","login_time":"0"}],"page_count":106,"page":1};
+    var data = window.OUT_DATA;
+
+    smarty.post( '/ajax_demo', {}, 'admin_list_div_html', 'admin_list_div', function () {
+
+    } );
+
+    /**
+     * 显示数据
+     */
+    function display_data( data )
+    {
+        /*
+         smarty.html('sparrow/tool/demo_list_search', data, 'admin_list_div', function(){
+         set_var( 'list', data.list );
+         $( '#res_list_total_num' ).html( data.count );
+         } );
+         */
+        smarty.html( 'jstpl/demo_list_search', data, 'admin_list_div', function(){
+            $( '#res_list_total_num' ).html( data.count );
+        } );
+    }
+
+
+    /*****************************************************************************************
+     * 强转数字
+     */
+    smarty.register_modifier( 'admin_id', function( val ) {
+        return val*100;
+    } );
+
+    smarty.register_function( 'sum', function( params ){
+        return params['val1'] + params['val2'] + params['val3'];
+    });
+
+    search_form.init('display_choose', {
+        view: 'res_option_list',
+        //初始的时候, 价格类型是选中的, 必须传 '1' 不能传 1
+        init_value: {},
+        callback: function( req_data ){
+            ajax.post( '/ajax_demo', req_data, display_data );
+        }
+    });
+</script>
+
+</html>

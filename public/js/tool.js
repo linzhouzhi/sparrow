@@ -12,6 +12,30 @@
 	var sparrow = {
 		/** 是否停止响应 mouse_over 事件 */
 		stop_mouse_over: false,
+		/**
+		 * 加载 js 后回调
+		 */
+		loadjs: function (src,func) {
+			//判断这个js文件存在直接执行回调
+			var scripts = document.getElementsByTagName('script') ;
+			for(i in scripts)
+				if(scripts[i].src == src)
+					return func() ;
+			if(typeof func != 'function')
+			{
+				console.log('param 2 is not a function!!') ;
+				return false ;
+			}
+			var script = document.createElement('script') ;
+			script.type ='text/javascript' ;
+			script.src = src ;
+			var head = document.getElementsByTagName('head').item(0);
+			head.appendChild(script);
+
+			script.onload = function(){
+				func();
+			}
+		},
 	    /**
 		 * 检查一个对象是否有某个属性
 		 */

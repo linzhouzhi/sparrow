@@ -75,6 +75,18 @@
 			return 'function' === typeof window.JS_TPL[ 'func_' + smarty_tpl_name( tpl_name ) ];
 		},
 		/**
+		 * 检查字符串末尾是否包含 _html
+		 */
+		has_html_tpl: function ( str )
+		{
+			var arr = str.split("_");
+			var len = arr.length;
+			if( arr[ len - 1 ] == "html" ){
+				return true;
+			}
+			return false;
+		},
+		/**
 		 * 手动编译模板
 		 * @returns {undefined}
 		 */
@@ -241,7 +253,15 @@
 		//重置smarty的保留变量
 		//smarty_reset_keep();
 		private_var = { };				//初始化该保留关键字
-		var tpl_result = smarty_do_parse( tpl_name );
+		if( sparrow.is_dev() )
+		{
+			var tpl_result = smarty_do_parse( tpl_name );
+		}
+		else
+		{
+			var tpl_result = tpl;
+		}
+
 		// 如果是开发模式打印出来
 		if( sparrow.is_dev() ){
 			//console.log( tpl_result );
@@ -328,20 +348,41 @@
 		{
 			if ( sparrow.is_dev() || window.FORCE_LOAD_TPL )
 			{
-				ajax.get_text( smarty.make_tpl_url( tpl_name ), function( tpl_str ) {
+				if( smarty.has_html_tpl( tpl_name ) ) // 判断是否是界面上模版
+				{
+					var tpl_str = $( "#" + tpl_name ).val();
 					smarty_parse_tpl( tpl_str, real_name );
 					_on_tpl_load();
-				} );
+				}
+				else  //否则就是要用 ajax 远程获取模版
+				{
+					ajax.get_text( smarty.make_tpl_url( tpl_name ), function( tpl_str ) {
+						smarty_parse_tpl( tpl_str, real_name );
+						_on_tpl_load();
+					} );
+				}
+
 			}
 			//正式的环境, 直接使用编译好的tpl
 			else
 			{
+				/*
 				 var tpl_dir = tpl_name.split( '/' );
 				 tpl_dir.pop();
 				 tpl_dir.push( 'tpl' );
 				 tpl_name = tpl_dir.join( '/' );
-				 var js_file = window.STATIC_URL + 'jstpl/' + tpl_name + '.js';
+				 var js_file = window.STATIC_URL + tpl_name + '.js';
 				 //seajs.use( js_file, _on_tpl_load );
+
+				*/
+
+				var tpl_dir = tpl_name.split( '/' );
+				tpl_name = tpl_dir.join( '_' );
+				var js_file = window.STATIC_URL + 'c_jstpl/func_' + tpl_name + '.js';
+				ajax.get_text( js_file, function( tpl_str ) {
+					eval(tpl_str);
+					_on_tpl_load();
+				} );
 
 			}
 		}
