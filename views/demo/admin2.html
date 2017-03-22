@@ -410,9 +410,11 @@
 <script src="vender/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <!-- AdminLTE App -->
 <script src="vender/adminlte/dist/js/app.js"></script>
+<script src="js/layer/layer.js"></script>
 <script>
     var $ = jQuery.noConflict();
     window.active_li_check = function () {
+        $("a.tab-link").parent().removeClass("active"); // 去掉所有的样式重新设置
         $("#tab-list").children().first().data("url");
         var tab_list = $("#tab-list").children();
         for( var i = 0; i < tab_list.length; i++ ){
@@ -421,6 +423,41 @@
         }
     }
 
+    /* 动态加载进来， 并设置位置*/
+    var iniid = "";
+    function loading( url ) {
+        var layer_obj = $(".layui-layer-shade").html();
+        layer.load(0, {shade:[0.75, '#fff'],zIndex:1});
+        var con_position = $("#content-body").position();
+        $(".layui-layer-shade").css("left", con_position.left);
+        $(".layui-layer-shade").css("top", con_position.top);
+        /*
+        var layer_position = $(".layui-layer").position();
+        $(".layui-layer").css("left", layer_position.left);
+        $(".layui-layer").css("top", layer_position.top + con_position.top);
+        */
+        iniid = setInterval( "check_load()", 1500 );
+    }
+    /* 定时器检查页面是否加载并关闭动画 */
+    function check_load() {
+        var iframe_load = $("iframe[class!='hidden']").contents().find("body").html();
+        if( iframe_load != "" && typeof(iframe_load) != "undefined"){
+            layer.closeAll("loading");
+            clearInterval(iniid);
+            console.log("定时 id:" + iniid);
+            return;
+        }
+    }
+    /* 添加 iframe */
+    function add_iframe( tab_index, url, reload) {
+        loading(url); //加载动画
+        if( reload == true ){
+            $("iframe[data-tab-index='" + tab_index + "']").remove();
+        }
+        var iframe_node = '<iframe data-tab-index="' + tab_index + '" src="'+ url +'" width="100%" style="border: none"></iframe>';
+        $("#content-body").append(iframe_node);
+        $("#content-body iframe").attr("height", "100%");
+    }
     /* init */
     $(document).ready(function () {
         function content_body_height() {
@@ -433,33 +470,47 @@
         $(window).resize(function(){
             content_body_height();
         });
+
+        //页面进来就加载首页
+        add_iframe(-1, "http://localhost:8081/smarty2");
+        //判读是否有指定地址
+        var target_url = $.trim(window.location.hash);
+        target_url = target_url.substr(1, target_url.length);
+        $("a[data-url='" + target_url + "']").trigger("click");
     });
 
     $("#content-body iframe").attr("height", $(window).height());
     $(".tab-link").click(function () {
         var url = $(this).data("url");
-        var link_name = $(this).text();
+        loading( url );
+        var link_name = "";
+        if( typeof($(this).data("url-name")) != "undefined" ){
+            link_name = $(this).data("url-name");
+        }else{
+            link_name = $(this).text();
+        }
         /* add iframe */
         var tab_index = $("ul#tab-list li").length;
         $("#content-body iframe").addClass("hidden");
-        var iframe_node = '<iframe data-tab-index="' + tab_index + '" src="'+ url +'" width="100%" style="border: none"></iframe>';
-        $("#content-body").append(iframe_node);
-        $("#content-body iframe").attr("height", "100%");
+        add_iframe(tab_index, url);
+
         /* tag-list */
         var tag_remove = ' <span data-tab-index="'+ tab_index + '" class="fa fa-times"></span>';
         $('#tab-list li').removeClass("li-active"); // 先移除其它 li 的样式
         /* add tab iframe */
         $("#tab-list").append("<li class='li-active' data-url='" + url + "'>" + link_name + tag_remove + "</li>");
         $('#tab-list li').unbind('click').click(function () {
-            var index = $(this).index();
+            var index = $( $(this).children()[0] ).data("tab-index");
             if( $(this).hasClass("li-active") ){ // 如果是被选中的状态那就继续加载一次
-                $("#content-body > iframe").eq(index).attr("src", $(this).data("url"));
+                var tmp_url = $(this).data("url");
+                var li_span = $(this).children()[0];
+                add_iframe( $(li_span).data("tab-index"), tmp_url, true);
                 return false;
             }
             $('#tab-list li').removeClass("li-active");
             $(this).addClass("li-active");
             $("#content-body > iframe").addClass("hidden");
-            $("#content-body > iframe").eq(index).removeClass("hidden");
+            $("iframe[data-tab-index='" + index + "']").removeClass("hidden");
             return false;
         });
 
@@ -470,8 +521,16 @@
             $("iframe[data-tab-index=" + index + "]").remove();
 
             if( $(this).parent().hasClass("li-active") ){
-                var last_index = $('ul#tab-list li').length - 1;
-                $("#content-body > iframe").eq(last_index).removeClass("hidden");
+                var last_index = $('ul#tab-list li').length;
+                var last_li = $('ul#tab-list li')[last_index - 1];
+                var last_li_index = $(last_li).children().data("tab-index");
+                if( typeof(last_li_index) == "undefined" ){
+                    $("iframe[data-tab-index='-1']").removeClass("hidden");
+                    window.active_li_check();
+                    return;
+                }
+                $("iframe[data-tab-index='" + last_li_index + "']").removeClass("hidden");
+
                 // 最后一个设置成 active
                 $('#tab-list li').removeClass("li-active");
                 $('#tab-list li').last().addClass("li-active");
