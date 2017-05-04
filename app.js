@@ -60,6 +60,11 @@ app.get('/pop', function (req, res) {
     res.render('demo/pop', {title:'paint title'});
 })
 
+app.get('/tree', function (req, res) {
+    console.log( req.query.page );
+    res.render('demo/tree', {title:'paint title'});
+})
+
 app.get('/form1', function (req, res) {
     console.log( req.query.page );
     res.render('demo/form1', {title:'paint title'});
